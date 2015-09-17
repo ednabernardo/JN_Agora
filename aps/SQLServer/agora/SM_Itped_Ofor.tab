@@ -1,0 +1,50 @@
+CREATE TABLE SM_Itped_Ofor(
+    ID_ItpedOfor                   bigint identity (1,1) NOT NULL, 
+	Numofor                        numeric(10,0) NOT NULL,
+    Numped                         numeric(10,0) NOT NULL,
+    Ano_ofor                       numeric(4,0) NOT NULL,
+    Itemofor                       numeric(4,0) NOT NULL,
+    Ano_ped                        numeric(4,0) NOT NULL,
+    Itemped                        numeric(4,0) NOT NULL,
+    Gcompra_numero                 bigint NOT NULL,
+    Quant_contr                    numeric NOT NULL,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	ID_ItensPedido                 bigint,
+	ID_ItensOfor                   bigint,
+	ID_OrdemFornec                 bigint,
+	ID_Pedidos                     bigint,
+	CONSTRAINT SM_Itped_Ofor_pk PRIMARY KEY  CLUSTERED  (ID_ItpedOfor)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Itped_Ofor ADD CONSTRAINT Ix_SM_Itped_Ofor_u UNIQUE(NumOfor, Ano_Ofor, Gcompra_Numero,ItemPed, NumPed, Ano_Ped, ItemOfor)
+GO
+
+ALTER TABLE SM_Itped_Ofor WITH CHECK ADD CONSTRAINT SM_Itped_Ofor_fk FOREIGN KEY(ID_ItensPedido)
+REFERENCES SM_itenspedido (ID_ItensPedido)
+GO
+
+ALTER TABLE SM_Itped_Ofor WITH CHECK ADD CONSTRAINT SM_Itped_Ofor_fk_1 FOREIGN KEY(ID_ItensOfor)
+REFERENCES SM_ItensOfor (ID_ItensOfor)
+GO
+
+alter table SM_Itped_Ofor add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_Itped_Ofor_TimeStamp ON SM_Itped_Ofor(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Itped_Ofor_ClienteCloud ON SM_Itped_Ofor(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Itped_Ofor_Empresa ON SM_Itped_Ofor (ID_Empresa)
+GO
+

@@ -1,0 +1,64 @@
+CREATE TABLE SM_Fclasses(
+    ID_Fclasses                     bigint identity (1,1) NOT NULL,               
+	Grupo_classe				   numeric    (2,0) NOT NULL,
+    Item_classe					   bigint NOT NULL,
+    Fam_classe                     numeric    (3,0) NOT NULL,
+    Nome                           varchar    (50) NOT NULL,
+    Flg_imovel                     varchar    (1) DEFAULT 'N' NOT NULL,
+    Flg_patrim                     varchar    (1) DEFAULT 'N' NOT NULL,
+    Flg_serv                       varchar    (1) DEFAULT 'N' NOT NULL,
+    Flg_almox                      varchar    (1) DEFAULT 'N' NOT NULL,
+    Flg_obras                      varchar    (1) NOT NULL,
+    Descricao                      varchar    (2000),
+    Vidaucont                      numeric    (6,0) ,
+    Deprec                         numeric    (5,2),
+    Natdesp                        numeric    (12,0),
+    Flex_campo_01                  varchar    (2000),
+    Flex_campo_02                  varchar    (2000),
+    Flex_campo_03                  varchar    (2000),
+    Flex_campo_04                  varchar    (2000),
+    Flex_campo_05                  varchar    (2000),
+    Flex_campo_06                  varchar    (2000),
+    Flex_campo_07                  varchar    (2000),
+    Flex_campo_08                  varchar    (2000),
+    Flex_campo_09                  varchar    (2000),
+    Flex_campo_10                  varchar    (2000),
+    Indice_residual                numeric    (5,2),
+	ID_Gclasses                    bigint,
+	CONSTRAINT SM_Fclasses_pk PRIMARY KEY  CLUSTERED  (ID_Fclasses)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Fclasses ADD CONSTRAINT Ix_SM_Fclasses UNIQUE(Fam_classe,Item_Classe,Grupo_Classe)
+GO
+
+ALTER TABLE SM_Fclasses WITH CHECK ADD CONSTRAINT SM_Fclasses_fk FOREIGN KEY(ID_Gclasses)
+REFERENCES SM_Gclasses (ID_Gclasses)
+GO
+
+ALTER TABLE SM_Fclasses  WITH CHECK ADD  CONSTRAINT ck_Flg_Obras CHECK  (Flg_Obras='N' OR Flg_Obras='S')
+GO
+	
+ALTER TABLE SM_Fclasses  WITH CHECK ADD  CONSTRAINT ck_Flg_Almox CHECK  (Flg_Almox='N' OR Flg_Almox='S')
+GO	
+
+ALTER TABLE SM_Fclasses  WITH CHECK ADD  CONSTRAINT ck_Flg_Serv CHECK  (Flg_Serv='N' OR Flg_Serv='S')
+GO
+
+ALTER TABLE SM_Fclasses  WITH CHECK ADD  CONSTRAINT ck_Flg_Imovel CHECK  (Flg_Imovel='N' OR Flg_Imovel='S')
+GO
+
+ALTER TABLE SM_Fclasses  WITH CHECK ADD  CONSTRAINT ck_Flg_Patrim CHECK  (Flg_Patrim='N' OR Flg_Patrim='S')
+GO
+
+alter table SM_Fclasses add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Fclasses_TimeStamp ON SM_Fclasses(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Fclasses_ClienteCloud ON SM_Fclasses(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Fclasses_Empresa ON SM_Fclasses (ID_Empresa)
+GO
+

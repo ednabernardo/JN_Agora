@@ -1,0 +1,58 @@
+CREATE TABLE SM_NatDesp(
+    ID_NatDesp                     bigint identity (1,1) NOT NULL,
+    Numero                         numeric(12,0) NOT NULL,
+    Nome                           varchar(50) NOT NULL,
+    Desativ                        varchar(1)  NOT NULL,
+    Orc                            varchar(1)   NOT NULL,
+    Execucao                       varchar(1)   NOT NULL,
+    NatBem                         varchar(1)   NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    vidaucont                      numeric(6,0),
+    indice_residual                numeric(5,2),
+	CONSTRAINT SM_Natdesp_pk PRIMARY KEY  CLUSTERED  (ID_NatDesp) ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Natdesp ADD CONSTRAINT Ix_SM_Natdesp UNIQUE(Numero,Ano)
+GO
+
+ALTER TABLE SM_Natdesp WITH CHECK ADD CONSTRAINT SM_Natdesp_fk FOREIGN KEY(Ano)
+REFERENCES SM_AnoCompra (Ano)
+GO
+
+CREATE INDEX Ix_ano ON SM_Natdesp (Ano); 
+GO
+
+ALTER TABLE SM_Natdesp  WITH CHECK ADD  CONSTRAINT ck_NatBem CHECK  (Natbem='N' OR Natbem='S')
+GO
+
+ALTER TABLE SM_Natdesp  WITH CHECK ADD  CONSTRAINT ck_Execucao CHECK  (Execucao='N' OR Execucao='S')
+GO
+
+ALTER TABLE SM_Natdesp  WITH CHECK ADD  CONSTRAINT ck_Orc CHECK  (Orc='N' OR Orc='S')
+GO
+
+ALTER TABLE SM_Natdesp  WITH CHECK ADD  CONSTRAINT ck_Desativ CHECK  (Desativ='N' OR Desativ='S')
+GO
+
+alter table SM_NatDesp add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_NatDesp_TimeStamp ON SM_NatDesp(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_NatDesp_ClienteCloud ON SM_NatDesp(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_NatDesp_Empresa ON SM_NatDesp (ID_Empresa)
+GO
+

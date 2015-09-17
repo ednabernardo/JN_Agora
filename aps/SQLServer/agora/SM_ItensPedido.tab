@@ -1,0 +1,100 @@
+CREATE TABLE SM_ItensPedido(
+    ID_ItensPedido                  bigint identity (1,1) NOT NULL,
+	Numped                         numeric(10,0) NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Gcompra_numero                 bigint NOT NULL,
+    Itemped                        numeric(4,0) NOT NULL,
+    Usu_sel                        varchar(15),
+    Flg_servico                    varchar(1) NOT NULL,
+    Numcompr                       numeric(10,0),
+    Unidade                        varchar(15),
+    Fam_Classe			           numeric(3,0),
+    Grupo_Classe				   numeric(2,0),
+    Item_Classe					   bigint ,
+    ItemId			               numeric(13,0),
+    Compr_ano                      numeric(4,0),
+    Itemcompra                     numeric(4,0),
+    Descr                          varchar(2000),
+    Item_mat                       numeric(7,0),
+    Quant_sol                      numeric,
+    Quant_atend                    numeric,
+    Preco_est                      numeric,
+    Flg_autorizado                 varchar(1),
+    Data_autorizacao               datetime,
+    Flg_indeferido                 varchar(1),
+    Quant_contr                    numeric,
+    Quant_entr                     numeric,
+    Precounit                      numeric,
+    Nat_desp                       numeric(12,0),
+    SM_pais                        numeric(2,0),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Criterio_cot                   varchar(15),
+	ID_Pedidos                     bigint,
+	ID_Natdesp                     bigint,
+	ID_Itens                       bigint,
+	ID_ItensCompra                 bigint,
+	ID_Fclasses                    bigint,
+	ID_Gclasses                    bigint,
+	ID_Compras                     bigint,
+	CONSTRAINT SM_ItensPedido_pk PRIMARY KEY  CLUSTERED  (ID_ItensPedido)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_ItensPedido ADD CONSTRAINT Ix_SM_ItensPedido_u UNIQUE(Gcompra_Numero, Numped, Ano, ItemPed)
+GO
+
+ALTER TABLE SM_ItensPedido WITH CHECK ADD CONSTRAINT SM_ItensPedido_fk FOREIGN KEY(ID_Itens)
+REFERENCES SM_itens (ID_Itens)
+GO
+
+ALTER TABLE SM_ItensPedido WITH CHECK ADD CONSTRAINT SM_ItensPedido_fk_1 FOREIGN KEY(Unidade)
+REFERENCES SM_UnidMed (Unidade)
+GO
+
+ALTER TABLE SM_ItensPedido WITH CHECK ADD CONSTRAINT SM_ItensPedido_fk_2 FOREIGN KEY(ID_Pedidos)
+REFERENCES SM_Pedidos (ID_Pedidos)
+GO
+
+ALTER TABLE SM_ItensPedido WITH CHECK ADD CONSTRAINT SM_ItensPedido_fk_3 FOREIGN KEY(ID_Natdesp)
+REFERENCES SM_Natdesp (ID_Natdesp)
+GO
+
+ALTER TABLE SM_ItensPedido WITH CHECK ADD CONSTRAINT SM_ItensPedido_fk_4 FOREIGN KEY(ID_ItensCompra)
+REFERENCES SM_ItensCompra(ID_ItensCompra)
+GO
+
+ALTER TABLE SM_ItensPedido WITH CHECK ADD CONSTRAINT SM_ItensPedido_fk_5 FOREIGN KEY(ID_Fclasses)
+REFERENCES SM_Fclasses(ID_Fclasses)
+GO
+
+ALTER TABLE SM_ItensPedido  WITH CHECK ADD  CONSTRAINT ck_Flg_Indeferido CHECK  (Flg_Indeferido='N' OR Flg_Indeferido='S')
+GO
+
+ALTER TABLE SM_ItensPedido  WITH CHECK ADD  CONSTRAINT ck_Flg_Autorizado CHECK  (Flg_Autorizado='N' OR Flg_Autorizado='S')
+GO
+
+ALTER TABLE SM_ItensPedido  WITH CHECK ADD  CONSTRAINT ck_Ipedido_Flg_Servico CHECK  (Flg_Servico='N' OR Flg_Servico='S')
+GO
+
+alter table SM_ItensPedido add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_ItensPedido_TimeStamp ON SM_ItensPedido(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_ItensPedido_ClienteCloud ON SM_ItensPedido(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_ItensPedido_Empresa ON SM_ItensPedido (ID_Empresa)
+GO
+
+CREATE INDEX IX_SM_ItensPedido_Pedido ON SM_ItensPedido (ID_Pedidos)
+GO

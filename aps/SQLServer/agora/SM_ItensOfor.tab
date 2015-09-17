@@ -1,0 +1,57 @@
+CREATE TABLE SM_ItensOfor(
+    ID_ItensOfor                    bigint identity (1,1) NOT NULL, 
+	Numofor                        numeric(10,0) NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Gcompra_numero                 bigint NOT NULL,
+    Itemofor                       numeric(4,0) NOT NULL,
+    Numcompr                       numeric(10,0),
+    Compr_ano                      numeric(4,0),
+    Itemcompra                     numeric(4,0),
+    Quant                          numeric,
+    Preco_unit                     numeric,
+    Preco_tot                      numeric(16,2),
+    Descricao                      varchar(2000),
+    Codigo_barra                   varchar(15),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Empenho                        varchar(20),
+    Corpoemp                       numeric(8,0),
+	ID_OrdemFornec                 bigint,
+	ID_ItensCompra                 bigint,
+	ID_Compras                     bigint,
+	CONSTRAINT SM_itensofor_pk PRIMARY KEY  CLUSTERED  (ID_ItensOfor)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_ItensOfor ADD CONSTRAINT Ix_SM_ItensOfor_u UNIQUE(NumOfor, Ano, Gcompra_Numero, ItemOfor)
+GO
+
+ALTER TABLE SM_ItensOfor WITH CHECK ADD CONSTRAINT SM_ItensOfor_fk FOREIGN KEY(ID_OrdemFornec)
+REFERENCES SM_OrdemFornec (ID_OrdemFornec)
+GO
+
+ALTER TABLE SM_ItensOfor WITH CHECK ADD CONSTRAINT SM_ItensOfor_fk_1 FOREIGN KEY(ID_ItensCompra)
+REFERENCES SM_ItensCompra (ID_ItensCompra)
+GO
+
+alter table SM_ItensOfor add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_ItensOfor_TimeStamp ON SM_ItensOfor(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_ItensOfor_ClienteCloud ON SM_ItensOfor(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_ItensOfor_Empresa ON SM_ItensOfor (ID_Empresa)
+GO
+
+
+

@@ -1,0 +1,28 @@
+CREATE TABLE SM_Eventos_Ay(
+    ID_EventosAy                    bigint identity (1,1) NOT NULL,
+	Ano                            numeric (4,0) NOT NULL,
+    Numevento                      numeric (6,0) NOT NULL,
+    Tipodoc                        varchar (2),
+    Abrev                          varchar (50),	
+	CONSTRAINT SM_Eventos_ay_pk PRIMARY KEY  CLUSTERED  (ID_EventosAy) ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Eventos_Ay ADD CONSTRAINT Ix_SM_Eventos_Ay_u UNIQUE(NumEvento, Ano)
+GO
+
+ALTER TABLE SM_Eventos_Ay WITH CHECK ADD CONSTRAINT SM_Eventos_Ay_fk FOREIGN KEY(Ano)
+REFERENCES SM_AnoCompra (Ano)
+GO
+
+alter table SM_Eventos_Ay add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_Eventos_Ay_TimeStamp ON SM_Eventos_Ay(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Eventos_Ay_ClienteCloud ON SM_Eventos_Ay(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Eventos_Ay_Empresa ON SM_Eventos_Ay (ID_Empresa)
+GO
+

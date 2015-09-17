@@ -1,0 +1,48 @@
+--
+-- Tarefa 79033 - 14/05/2013 - Edna - v4.29
+--
+CREATE VIEW agoadm00061_hd_comentario
+AS
+SELECT
+	C.ID, 
+	C.DATA_COMENT,
+	C.USUARIO,
+	C.COMENTARIO,
+	C.TABELA,
+	C.CHAVE_01,
+	C.CHAVE_02,
+	C.CHAVE_03,
+	C.CHAVE_04,
+	C.CHAVE_05,
+	C.CHAVE_06,
+	C.CHAVE_07,
+	C.CHAVE_08,
+	C.VALOR_01,
+	C.VALOR_02,
+	C.VALOR_03,
+	C.VALOR_04,
+	C.VALOR_05,
+	C.VALOR_06,
+	C.VALOR_07,
+	C.VALOR_08,
+	C.FLEX_CAMPO_01,
+	C.FLEX_CAMPO_02,
+	C.FLEX_CAMPO_03,
+	C.FLEX_CAMPO_04,
+	C.FLEX_CAMPO_05,
+	C.FLEX_CAMPO_06,
+	C.id AS ROWID_REG
+FROM
+    HD_COMENTARIO C
+/
+
+-- INI ---------------------------- HAD_FIXES ---------------------------------------------
+INSERT INTO HAD_FIX
+(IDENT,DESCRICAO,DATAALTERACAO,SIS,TIPOOBJ,OBJETO,VERSAO)
+VALUES
+('TAREFA79033','Criação da VIEW no SQL Server',
+ TO_DATE('14/05/2013','DD/MM/YYYY'),'AGORA','VIEW','AGOADM00061_HD_COMENTARIO','1.0')
+/
+COMMIT
+/
+-- FIM ---------------------------- HAD_FIXES ---------------------------------------------

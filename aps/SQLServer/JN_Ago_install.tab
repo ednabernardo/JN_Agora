@@ -1,0 +1,2287 @@
+CREATE TABLE JN_Ago_Ano(
+    ID_Ano                   bigint identity (1,1) NOT NULL,
+    Ano                      numeric (4,0) NOT NULL,
+    DataIni                  datetime ,
+    DataFim                  datetime ,
+    Flex_Campo_01            varchar(2000),
+    Flex_Campo_02            varchar(2000),
+    Flex_Campo_03            varchar(2000),
+    Flex_Campo_04            varchar(2000),
+    Flex_Campo_05            varchar(2000),
+    Flex_Campo_06            varchar(2000),
+    Flex_Campo_07            varchar(2000),
+    Flex_Campo_08            varchar(2000),
+    Flex_Campo_09            varchar(2000),
+    Flex_Campo_10            varchar(2000),
+    TimeStamp                timestamp NOT NULL,
+    ID_ClienteCloud          bigint,
+    ID_Empresa               bigint NOT NULL,	
+    CONSTRAINT JN_Ago_Ano_Pk PRIMARY KEY CLUSTERED (ID_Ano) ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Ano ADD CONSTRAINT JN_Ago_Ano_U UNIQUE(Ano)
+GO
+
+
+CREATE TABLE JN_Ago_Projetos(
+    ID_Projetos                    bigint identity (1,1) NOT NULL,
+	Cod                            varchar(15) NOT NULL,
+    Nome                           varchar(60) NOT NULL,
+    Flg_Inativo                    varchar(1) NOT NULL,
+    Flg_Transfere                  varchar(1) DEFAULT 'N',
+    Ano                            numeric(4,0) NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	ID_Ano                         bigint,
+	CONSTRAINT JN_Ago_Projetos_Pk PRIMARY KEY  CLUSTERED  (ID_Projetos)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Projetos ADD CONSTRAINT JN_Ago_Projetos_U UNIQUE(Cod, Ano)
+GO
+
+/*
+ALTER TABLE JN_Ago_Projetos WITH CHECK ADD CONSTRAINT JN_Ago_Projetos_Fk FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_Projetos WITH CHECK ADD CONSTRAINT JN_Ago_Projetos_Fk FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+
+CREATE INDEX JN_Ago_Projetos_I ON JN_Ago_Projetos (Ano); 
+GO
+
+ALTER TABLE JN_Ago_Projetos  WITH CHECK ADD  CONSTRAINT JN_Ago_Projetos_Flg_Transfere_Ck CHECK  (Flg_Transfere='N' OR Flg_Transfere='S')
+GO
+
+ALTER TABLE JN_Ago_Projetos  WITH CHECK ADD  CONSTRAINT JN_Ago_Projetos_flg_inativo_Ck CHECK  (Flg_Inativo='N' OR Flg_Inativo='S')
+GO
+
+CREATE TABLE JN_Ago_Natdesp(
+    ID_NatDesp                     bigint identity (1,1) NOT NULL,
+    Numero                         numeric(12,0) NOT NULL,
+    Nome                           varchar(50) NOT NULL,
+    Desativ                        varchar(1)  NOT NULL,
+    Orc                            varchar(1)   NOT NULL,
+    Execucao                       varchar(1)   NOT NULL,
+    NatBem                         varchar(1)   NOT NULL,
+    ID_Ano                         bigint,
+	Ano                            numeric(4,0) NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    VidaUcont                      numeric(6,0),
+    Indice_Residual                numeric(5,2),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_NatDesp_Pk PRIMARY KEY  CLUSTERED  (ID_NatDesp) ON [PRIMARY])
+GO
+
+
+ALTER TABLE JN_Ago_NatDesp ADD CONSTRAINT JN_Ago_Natdesp_U UNIQUE(Numero,Ano)
+GO
+
+/*
+ALTER TABLE JN_Ago_NatDesp WITH CHECK ADD CONSTRAINT JN_Ago_NatDesp_fk FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_NatDesp WITH CHECK ADD CONSTRAINT JN_Ago_NatDesp_fk FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+CREATE INDEX JN_Ago_NatDesp_I ON JN_Ago_NatDesp (Ano); 
+GO
+
+ALTER TABLE JN_Ago_NatDesp  WITH CHECK ADD  CONSTRAINT JN_Ago_NatBem_Ck CHECK  (NatBem='N' OR NatBem='S')
+GO
+
+ALTER TABLE JN_Ago_NatDesp  WITH CHECK ADD  CONSTRAINT JN_Ago_Execucao_Ck CHECK  (Execucao='N' OR Execucao='S')
+GO
+
+ALTER TABLE JN_Ago_NatDesp  WITH CHECK ADD  CONSTRAINT JN_Ago_Orc_Ck CHECK  (Orc='N' OR Orc='S')
+GO
+
+ALTER TABLE JN_Ago_NatDesp  WITH CHECK ADD  CONSTRAINT JN_Ago_Desativ_Ck CHECK  (Desativ='N' OR Desativ='S')
+GO
+
+
+CREATE TABLE JN_Ago_Dotacoes (
+    ID_Dotacoes                    bigint identity (1,1) NOT NULL,
+    Num_Natdesp                    numeric(12,0) NOT NULL,
+    Num_Unor                       varchar(8) NOT NULL,
+    Num_Funcao                     numeric(2,0) NOT NULL,
+    Num_Programa                   numeric(3,0) NOT NULL,
+    Num_SubProg                    numeric(4,0) NOT NULL,
+    Num_ProjAtiv                   numeric(5,0) NOT NULL,
+    Num_Fonte                      numeric(4,0) NOT NULL,
+    Flg_Inativo                    varchar(1) DEFAULT 'N' NOT NULL,
+    Vlr_Inicial                    numeric(16,2),
+    Vlr_Atual                      numeric(16,2),
+    ID_Ano                         int,
+	Ano                            numeric(4,0) NOT NULL,
+    Descricao                      varchar(50),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	ID_NatDesp                     bigint,
+	CONSTRAINT JN_Ago_Dotacoes_Pk PRIMARY KEY  CLUSTERED  (ID_Dotacoes)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Dotacoes ADD CONSTRAINT JN_Ago_Dotacoes_U UNIQUE(ID_Dotacoes, Ano)
+GO
+
+
+/*
+ALTER TABLE JN_Ago_Dotacoes WITH CHECK ADD CONSTRAINT JN_Ago_Dotacoes_Fk FOREIGN KEY(ID_NatDesp)
+REFERENCES JN_Ago_NatDesp (ID_NatDesp)
+GO
+
+
+ALTER TABLE JN_Ago_Dotacoes WITH CHECK ADD CONSTRAINT JN_Ago_Dotacoes_Fk_1 FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_Dotacoes WITH CHECK ADD CONSTRAINT JN_Ago_Dotacoes_Fk_1 FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+ALTER TABLE JN_Ago_Dotacoes  WITH CHECK ADD CONSTRAINT JN_Ago_Dotacoes_Inativo_Ck CHECK  (Flg_Inativo='N' OR Flg_Inativo='S')
+GO
+
+CREATE INDEX JN_Ago_Dotacoes_I ON JN_Ago_Dotacoes (Num_Natdesp,Ano); 
+GO
+
+CREATE INDEX JN_Ago_Dotacoes_II ON JN_Ago_Dotacoes (Ano); 
+GO
+
+
+CREATE TABLE JN_Ago_Dotacao_Projeto(
+    ID_Dotacao_Projeto             bigint identity (1,1) NOT NULL,
+	ID_Projetos                    bigint,
+    Projeto                        varchar(15) ,
+    ID_Dotacoes                    bigint NOT NULL,
+    Sld_Inicial                    numeric(16,2),
+    Sld_Atual                      numeric(16,2),
+	ID_Ano                         bigint,
+    Ano                            numeric(4,0) NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Dotacao_Projeto_Pk PRIMARY KEY  CLUSTERED  (Id_Dotacao_Projeto)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Dotacao_Projeto ADD CONSTRAINT JN_Ago_Dotacao_Projeto_U UNIQUE(Projeto, Ano, ID_Dotacoes)
+GO
+
+ALTER TABLE JN_ago_dotacao_projeto WITH CHECK ADD CONSTRAINT JN_ago_dotacao_projeto_Fk FOREIGN KEY(ID_Projetos)
+REFERENCES JN_Ago_Projetos (ID_Projetos)
+GO
+
+/*
+ALTER TABLE JN_Ago_Dotacao_Projeto WITH CHECK ADD CONSTRAINT JN_Ago_Dotacao_Projeto_Fk_1 FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+
+ALTER TABLE JN_Ago_Dotacao_Projeto WITH CHECK ADD CONSTRAINT JN_Ago_Dotacao_Projeto_Fk_1 FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+
+ALTER TABLE JN_Ago_Dotacao_Projeto WITH CHECK ADD CONSTRAINT JN_Ago_Dotacao_Projeto_Fk_2 FOREIGN KEY(ID_Dotacoes)
+REFERENCES JN_Ago_Dotacoes (ID_Dotacoes)
+GO
+
+CREATE INDEX JN_Ago_Dotacoes_Projeto_I ON JN_Ago_Dotacao_Projeto (Projeto,Ano); 
+GO
+
+CREATE INDEX JN_Ago_Dotacoes_Projeto_II ON JN_Ago_Dotacao_Projeto (Ano); 
+GO
+
+CREATE INDEX JN_Ago_Dotacoes_Projeto_III ON JN_Ago_Dotacao_Projeto (ID_Dotacoes, Ano); 
+GO
+
+CREATE TABLE JN_Ago_UnidMed (
+    ID_UnidMed                     bigint identity (1,1) NOT NULL,
+	Unidade                        varchar (15) NOT NULL,
+    Nome                           varchar (50) ,
+    Flex_Campo_01                  varchar (2000),
+    Flex_Campo_02                  varchar (2000),
+    Flex_Campo_03                  varchar (2000),
+    Flex_Campo_04                  varchar (2000),
+    Flex_Campo_05                  varchar (2000) ,
+    Flex_Campo_06                  varchar (2000),
+    Flex_Campo_07                  varchar (2000),
+    Flex_Campo_08                  varchar (2000),
+    Flex_Campo_09                  varchar (2000),
+    Flex_Campo_10                  varchar (2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	 CONSTRAINT sm_unidmed_pk PRIMARY KEY  CLUSTERED  (Unidade)  ON [PRIMARY] )
+GO
+
+ALTER TABLE JN_Ago_UnidMed ADD CONSTRAINT JN_Ago_UnidMed_U UNIQUE(Unidade)
+GO
+
+CREATE TABLE JN_Ago_TipoLicitacao(
+    ID_TipoLicitacao    bigint identity (1,1) NOT NULL,
+	Modalidade          varchar(15) NOT NULL,
+    Flg_Periodo         varchar(1) NOT NULL,
+    Descr               varchar(150),
+    Limite              numeric(16,2),
+    Periodo             numeric(6,0),
+    Val_Padrao          numeric(4,0),
+    Flg_Processo        varchar(1),
+    Flex_Campo_01       varchar(2000),
+    Flex_Campo_02       varchar(2000),
+    Flex_Campo_03       varchar(2000),
+    Flex_Campo_04       varchar(2000),
+    Flex_Campo_05       varchar(2000),
+    Flex_Campo_06       varchar(2000),
+    Flex_Campo_07       varchar(2000),
+    Flex_Campo_08       varchar(2000),
+    Flex_Campo_09       varchar(2000),
+    Flex_Campo_10       varchar(2000),
+	TimeStamp           timestamp NOT NULL,
+    ID_ClienteCloud     bigint,
+    ID_Empresa          bigint NOT NULL,	
+	CONSTRAINT JN_Ago_TipoLicitacao_Pk PRIMARY KEY  CLUSTERED  (ID_TipoLicitacao)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_TipoLicitacao WITH CHECK ADD  CONSTRAINT JN_Ago_TipoLicitacao_Flg_Processo_Ck CHECK  ((Flg_Processo='N' OR Flg_Processo='S'))
+GO
+
+ALTER TABLE JN_Ago_TipoLicitacao WITH CHECK ADD  CONSTRAINT JN_Ago_TipoLicitacao_Flg_Periodo_Ck CHECK  ((Flg_Periodo='N' OR Flg_Periodo='S'))
+GO
+
+CREATE TABLE JN_Ago_Fornecedor(
+    ID_Fornecedor                  bigint identity (1,1) NOT NULL, 
+    Cgc                            varchar(14) NOT NULL,
+    Nome                           varchar(100) NOT NULL,
+    AtuaReg                        varchar(1) NOT NULL,
+    Ativo                          varchar(1) NOT NULL,
+    Sigla_Forn                     varchar(50),
+    InscrEst                       varchar(15),
+    InscrMunic                     varchar(15),
+    InscrEcon                      varchar(15),
+    RegProfis                      varchar(15),
+    Situacao                       varchar(10),
+    Crc                            numeric(10,0),
+    ValidCrc                       datetime,
+    Capital                        numeric(16,2),
+    Obs                            varchar(600),
+    PatrimLiq                      numeric(16,2),
+    ContrSocial                    varchar(15),
+    DataContr                      datetime,
+    Num_Origem                     numeric(10,0),
+    Tipo_End                       varchar(10),
+    Rua                            varchar(60),
+    Num_End                        varchar(6),
+    Compl_End                      varchar(30),
+    Cep                            numeric(8,0),
+    Num_Ddd                        varchar(4),
+    Num_Tel                        varchar(15),
+    Num_Fax                        varchar(15),
+    Imp_Crc                        numeric(8,0),
+    EmissaoCrc                     datetime,
+    Mbairro_Codigo                 varchar(50),
+    Mbairro_Municipio_Codigo       varchar(12),
+    Flg_Qualidade                  varchar(1),
+    End_Mail                       varchar(100),
+    Senha                          varchar(50),
+    End_Web                        varchar(100),
+    End_Ip                         varchar(30),
+    Usuario_Aut                    varchar(15),
+    Data_Aut                       datetime,
+    Flg_Email                      varchar(1) DEFAULT 'N',
+    Caixa_Postal                   varchar(20),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Cel_Num                        varchar(15),
+    Tipo_Cadastro                  varchar(1),
+    Flg_Proprietario               varchar(1),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Fornecedor_Pk PRIMARY KEY  CLUSTERED  (ID_Fornecedor)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Fornecedor ADD CONSTRAINT JN_Ago_Fornecedor_U UNIQUE(Cgc)
+GO
+
+ALTER TABLE JN_Ago_Fornecedor WITH CHECK ADD  CONSTRAINT JN_Ago_Fornecedor_Flg_Qualidade_Ck CHECK  (Flg_Qualidade='N' OR Flg_Qualidade='S')
+GO
+
+ALTER TABLE JN_Ago_Fornecedor WITH CHECK ADD  CONSTRAINT JN_Ago_Situacao_Ck CHECK  ((Situacao='SUSPENSO' OR Situacao='CANCELADO' OR 
+Situacao='ADVERTIDO' OR Situacao='REGULAR' OR Situacao='IRREGULAR'))
+GO
+
+ALTER TABLE JN_Ago_Fornecedor WITH CHECK ADD  CONSTRAINT JN_Ago_Situacao_Ativo CHECK  (Ativo='N' OR Ativo='S')
+GO
+
+ALTER TABLE JN_Ago_Fornecedor WITH CHECK ADD  CONSTRAINT JN_Ago_AtuaReg_Ck CHECK  (AtuaReg='N' OR AtuaReg='S')
+GO
+
+ALTER TABLE JN_Ago_Fornecedor WITH CHECK ADD  CONSTRAINT JN_Ago_AtuaReg_Flg_Email_Ck CHECK  (Flg_Email='N' OR Flg_Email='S')
+GO
+
+CREATE TABLE JN_Ago_Almoxarifados(
+    ID_Almoxarifados               bigint identity (1,1) NOT NULL,
+    Nome                           varchar(50) NOT NULL,
+    Fechado                        varchar(1) DEFAULT 'N' NOT NULL,
+    Perm_Consol                    varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_VeEstoque                  varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_Gerarm                     varchar(1) NOT NULL,
+    Flg_MsgrEstr_Almox             varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_MsgrEstr_Proj              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_MsgrEstr_Cota              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_MsgrEstr_Lote              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_MsgrEstr_Apre              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_MsgrEstr_Aplo              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_CcPrefer                   varchar(1) DEFAULT 'N',
+    Dotacao_Pref                   numeric(12,0),
+    Projeto                        varchar(15),
+    Almox_ID                       bigint,
+    Responsavel                    varchar(50),
+    Nome_End                       varchar(50),
+    Tipo_End                       varchar(10),
+    Num_End                        numeric(6,0),
+    Compl_End                      varchar(20),
+    Cep_End                        numeric(8,0),
+    Lastnum_E                      numeric(10,0),
+    Lastnum_S                      numeric(10,0),
+    Lastnum_Es                     numeric(10,0),
+    Lastnum_Ee                     numeric(10,0),
+    Flg_InibeQtd                   varchar(1),
+    Mbairro_Municipio_Codigo       varchar(12),
+    Mbairro_Codigo                 varchar(12),
+    ID_Ano                         bigint,
+	Ano                            numeric(4,0),
+    Flg_CcpCota                    varchar(1) DEFAULT 'N',
+    Flg_ImpGuiaDist                varchar(1) DEFAULT 'S' NOT NULL,
+    DiaIni_Req                     numeric(2,0),
+    DiaFim_Req                     numeric(2,0),
+    DiaIni_Con                     numeric(2,0),
+    DiaFim_Con                     numeric(2,0),
+    Flg_GuiaPadrao                 varchar(1),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Flg_ApresFechada               varchar(1) DEFAULT 'S',
+    Flg_Req_Sem_Est                CHAR(1),
+    Flg_Mat_Cota                   CHAR(1),
+    Chk_Empenho_Ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	ID_Projetos                    bigint,
+     CONSTRAINT JN_Ago_Almoxarifados_pk PRIMARY KEY  CLUSTERED  (ID_Almoxarifados)  ON [PRIMARY])
+GO
+	
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Almoxarifados_Fk FOREIGN KEY(Almox_ID)
+REFERENCES JN_Ago_Almoxarifados (ID_Almoxarifados)
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Almoxarifados_Fk_1 FOREIGN KEY(ID_Projetos)
+REFERENCES JN_Ago_Projetos (ID_Projetos)
+GO
+
+/*
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Almoxarifados_Fk_2 FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Almoxarifados_Fk_2 FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+
+CREATE INDEX JN_Ago_Almoxarifados_I ON JN_Ago_Almoxarifados (Projeto, Ano); 
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_GuiaPadrao_Ck CHECK  (Flg_GuiaPadrao='N' OR Flg_GuiaPadrao='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_ImpGuiaDist_Ck CHECK  (Flg_ImpGuiaDist='N' OR Flg_ImpGuiaDist='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_CcpCota_Ck CHECK  (Flg_CcpCota='N' OR Flg_CcpCota='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_VeEstoque_Ck CHECK  (Flg_VeEstoque='N' OR Flg_VeEstoque='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_GeraRm_Ck CHECK  (Flg_GeraRm='N' OR Flg_GeraRm='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_MsgrEstr_Almox_Ck CHECK  (Flg_MsgrEstr_Almox='N' OR Flg_MsgrEstr_Almox='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_MsgrEstr_Proj_Ck CHECK  (Flg_MsgrEstr_Proj='N' OR Flg_MsgrEstr_Proj='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_MsgrEstr_Cota_Ck CHECK  (Flg_MsgrEstr_Cota='N' OR Flg_MsgrEstr_Cota='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_MsgrEstr_Lote_Ck CHECK  (Flg_MsgrEstr_Lote='N' OR Flg_MsgrEstr_Lote='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_MsgrEstr_Apre_Ck CHECK  (Flg_MsgrEstr_Apre='N' OR Flg_MsgrEstr_Apre='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_MsgrEstr_Aplo_Ck CHECK  (Flg_MsgrEstr_Aplo='N' OR Flg_MsgrEstr_Aplo='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Flg_CcPrefer_Ck CHECK (Flg_CcPrefer='N' OR Flg_CcPrefer='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Fechado_Ck CHECK (Fechado='N' OR Fechado='S')
+GO
+
+ALTER TABLE JN_Ago_Almoxarifados WITH CHECK ADD CONSTRAINT JN_Ago_Perm_Consol_Ck CHECK (Perm_Consol='N' OR Perm_Consol='S')
+GO
+
+
+CREATE TABLE JN_Ago_Inc(
+    ID_Inc                         bigint identity (1,1) NOT NULL,
+	Cod_Inc                        varchar (6) ,
+    Nome_Enc                       varchar(100),
+    Defin_Inc                      varchar(2000),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Inc_Pk PRIMARY KEY  CLUSTERED  (ID_Inc) ON [PRIMARY] )
+GO
+
+ALTER TABLE JN_Ago_Inc ADD CONSTRAINT JN_Ago_Inc_U UNIQUE(Cod_Inc)
+GO
+
+
+CREATE TABLE JN_Ago_Iclasses(
+    ID_Iclasses                    bigint identity (1,1) NOT NULL,
+    Nome                           varchar (50) NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Iclasse_Pk PRIMARY KEY  CLUSTERED  (ID_Iclasses)  ON [PRIMARY])
+GO
+
+CREATE TABLE JN_Ago_Gclasses (
+    ID_Gclasses                    bigint identity (1,1) NOT NULL,
+	ID_Iclasses                    bigint NOT NULL,
+    Nome                           varchar (100) NOT NULL,
+    Flex_Campo_01                  varchar (2000),
+    Flex_Campo_02                  varchar (2000),
+    Flex_Campo_03                  varchar (2000),
+    Flex_Campo_04                  varchar (2000),
+    Flex_Campo_05                  varchar (2000),
+    Flex_Campo_06                  varchar (2000),
+    Flex_Campo_07                  varchar (2000),
+    Flex_Campo_08                  varchar (2000),
+    Flex_Campo_09                  varchar (2000),
+    Flex_Campo_10                  varchar (2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Gclasses_Pk PRIMARY KEY  CLUSTERED  (ID_Gclasses)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Gclasses ADD CONSTRAINT JN_Ago_Gclasses_U UNIQUE(ID_Gclasses,ID_Iclasses)
+GO
+
+ALTER TABLE JN_Ago_Gclasses WITH CHECK ADD CONSTRAINT JN_Ago_Gclasses_Fk FOREIGN KEY(ID_Iclasses)
+REFERENCES JN_Ago_Iclasses (ID_IClasses)
+GO
+
+
+CREATE TABLE JN_Ago_Fclasses(
+    ID_Fclasses                    bigint identity (1,1) NOT NULL,  
+    ID_Iclasses                    bigint NOT NULL,	
+	ID_Gclasses                    bigint NOT NULL,
+    Nome                           varchar    (50) NOT NULL,
+    Flg_Imovel                     varchar    (1) DEFAULT 'N' NOT NULL,
+    Flg_Patrim                     varchar    (1) DEFAULT 'N' NOT NULL,
+    Flg_Serv                       varchar    (1) DEFAULT 'N' NOT NULL,
+    Flg_Almox                      varchar    (1) DEFAULT 'N' NOT NULL,
+    Flg_Obras                      varchar    (1) NOT NULL,
+    Descricao                      varchar    (2000),
+    VidauCont                      numeric    (6,0) ,
+    Deprec                         numeric    (5,2),
+    Natdesp                        numeric    (12,0),
+    Flex_Campo_01                  varchar    (2000),
+    Flex_Campo_02                  varchar    (2000),
+    Flex_Campo_03                  varchar    (2000),
+    Flex_Campo_04                  varchar    (2000),
+    Flex_Campo_05                  varchar    (2000),
+    Flex_Campo_06                  varchar    (2000),
+    Flex_Campo_07                  varchar    (2000),
+    Flex_Campo_08                  varchar    (2000),
+    Flex_Campo_09                  varchar    (2000),
+    Flex_Campo_10                  varchar    (2000),
+    Indice_Residual                numeric    (5,2),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Fclasses_Pk PRIMARY KEY  CLUSTERED  (ID_Fclasses)  ON [PRIMARY])
+
+GO
+
+ALTER TABLE JN_Ago_Fclasses ADD CONSTRAINT JN_Ago_Fclasses_U UNIQUE(ID_Fclasses, ID_Gclasses, ID_Iclasses)
+GO
+
+ALTER TABLE JN_Ago_Fclasses WITH CHECK ADD CONSTRAINT JN_Ago_Fclasses_Fk FOREIGN KEY(ID_Iclasses)
+REFERENCES JN_Ago_Iclasses (ID_Iclasses)
+GO
+
+ALTER TABLE JN_Ago_Fclasses WITH CHECK ADD CONSTRAINT JN_Ago_Fclasses_Fk_1 FOREIGN KEY(ID_Gclasses)
+REFERENCES JN_Ago_Gclasses (ID_Gclasses)
+GO
+
+CREATE INDEX JN_Ago_Fclasses ON JN_Ago_Fclasses (ID_Iclasses,ID_Gclasses) 
+GO
+
+ALTER TABLE JN_Ago_Fclasses  WITH CHECK ADD  CONSTRAINT JN_Ago_Flg_Obras CHECK  (Flg_Obras='N' OR Flg_Obras='S')
+GO
+	
+ALTER TABLE JN_Ago_Fclasses  WITH CHECK ADD  CONSTRAINT JN_Ago_Almox_Ck CHECK  (Flg_Almox='N' OR Flg_Almox='S')
+GO	
+
+ALTER TABLE JN_Ago_Fclasses  WITH CHECK ADD  CONSTRAINT JN_Ago_Flg_Serv_Ck CHECK  (Flg_Serv='N' OR Flg_Serv='S')
+GO
+
+ALTER TABLE JN_Ago_Fclasses  WITH CHECK ADD  CONSTRAINT JN_Ago_Flg_Movel_Ck CHECK  (Flg_Imovel='N' OR Flg_Imovel='S')
+GO
+
+ALTER TABLE JN_Ago_Fclasses  WITH CHECK ADD  CONSTRAINT JN_Ago_Patrim_Ck CHECK  (Flg_Patrim='N' OR Flg_Patrim='S')
+GO
+
+CREATE TABLE JN_Ago_Locais_Entregas(
+    ID_LocaisEntregas              bigint identity (1,1) NOT NULL,
+    Local                          varchar(15) NOT NULL,
+    Nome                           varchar(50) NOT NULL,
+    Tipo_Log                       varchar(10) NOT NULL,
+    Nome_Log                       varchar(50) NOT NULL,
+    Num_Log                        numeric(6,0) NOT NULL,
+    Uf                             varchar(2) NOT NULL,
+    Cep                            varchar(9) NOT NULL,
+    Fone                           varchar(15),
+    Fax                            varchar(15),
+    Complemento                    varchar(20),
+    Mbairro_Codigo                 varchar(12) NOT NULL,
+    Mbairro_Municipio_Codigo       varchar(12) NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Locais_Entregas_Pk PRIMARY KEY  CLUSTERED  (ID_LocaisEntregas)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Locais_Entregas ADD CONSTRAINT JN_Ago_Locais_Entregas_U UNIQUE(Local)
+GO
+
+CREATE TABLE JN_Ago_Itens(
+    ID_Itens                       bigint identity (1,1) NOT NULL, 
+	ID_Iclasses                    bigint NOT NULL,
+	ID_Gclasses                    bigint NOT NULL,
+	ID_Fclasses                    bigint NOT NULL,
+    Item                           numeric(7,0) NOT NULL,
+	Item_ID                        numeric(13,0) NOT NULL,
+    Nome                           varchar(50) NOT NULL,
+    ID_UnidMed                     bigint,
+	Unidade                        varchar(15) NOT NULL,
+    Flg_Lote                       varchar(1) DEFAULT 'N' NOT NULL,
+    Especif                        text,
+    Tipo_Patr                      varchar(15),
+    VidaUfis                       numeric(6,0),
+    Num_Antigo                     varchar(15),
+    Flg_Fracao                     varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_Decimal                    varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_Desuso                     varchar(1) DEFAULT 'N' NOT NULL,
+    Sm_Pais                        numeric(2,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    ID_Inc                         bigint NOT NULL,
+	Cod_Inc                        varchar(6),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_Itens_Pk PRIMARY KEY  CLUSTERED  (ID_Itens) ON [PRIMARY])
+GO
+
+
+ALTER TABLE JN_Ago_Itens ADD CONSTRAINT JN_Ago_Itens_U_1 UNIQUE(ID_Iclasses, ID_Gclasses, ID_Fclasses, Item, Sm_Pais)
+GO
+
+ALTER TABLE JN_Ago_Itens ADD CONSTRAINT JN_Ago_Itens_U_2 UNIQUE(Item_ID)
+GO
+
+/*
+ALTER TABLE JN_Ago_Itens WITH CHECK ADD CONSTRAINT JN_Ago_Itens_Fk FOREIGN KEY(ID_UnidMed)
+REFERENCES JN_Ago_UnidMed (ID_UnidMed)
+GO
+*/
+
+ALTER TABLE JN_Ago_Itens WITH CHECK ADD CONSTRAINT JN_Ago_Itens_Fk FOREIGN KEY(Unidade)
+REFERENCES JN_Ago_UnidMed (Unidade)
+GO
+
+ALTER TABLE JN_Ago_Itens WITH CHECK ADD CONSTRAINT JN_Ago_Itens_Fk_1 FOREIGN KEY(ID_Inc)
+REFERENCES JN_Ago_Inc (ID_Inc)
+GO
+
+ALTER TABLE JN_Ago_Itens WITH CHECK ADD CONSTRAINT JN_Ago_Itens_Fk_2 FOREIGN KEY(ID_Fclasses)
+REFERENCES JN_Ago_Fclasses (ID_Fclasses)
+GO
+
+CREATE INDEX JN_Ago_Itens ON JN_Ago_Itens (Cod_Inc) 
+GO
+
+CREATE INDEX JN_Ago_Itens_I ON JN_Ago_Itens (ID_Iclasses,ID_Gclasses,ID_Fclasses) 
+GO
+
+ALTER TABLE JN_Ago_Itens  WITH CHECK ADD  CONSTRAINT JN_Ago_Itens_Flg_Desuso_Ck CHECK  (Flg_DesUso='N' OR Flg_DesUso='S')
+GO
+
+ALTER TABLE JN_Ago_Itens  WITH CHECK ADD  CONSTRAINT JN_Ago_Itens_Flg_Decimal_Ck CHECK  (Flg_Decimal='N' OR Flg_Decimal='S')
+GO
+
+ALTER TABLE JN_Ago_Itens  WITH CHECK ADD  CONSTRAINT JN_Ago_Itens_Flg_Fracao_Ck CHECK  (Flg_Fracao='N' OR Flg_Fracao='S')
+GO
+
+ALTER TABLE JN_Ago_Itens  WITH CHECK ADD  CONSTRAINT JN_Ago_Itens_Tipo_Patr_Ck CHECK  (Tipo_Patr='PLAQ' OR Tipo_Patr='NPLAQ' OR Tipo_Patr='IMOV')
+GO
+
+ALTER TABLE JN_Ago_Itens  WITH CHECK ADD  CONSTRAINT JN_Ago_Itens_Flg_Lote_Ck CHECK  (Flg_Lote='N' OR Flg_Lote='S')
+GO
+
+CREATE TABLE JN_Ago_NatDesp_Item(
+	ID_NatDesp_Item         bigint identity (1,1) NOT NULL,
+	ID_NatDesp              int,
+	ID_Itens                int,
+	ID_Ano                  int,
+	Item_ID                 numeric(13,0) NOT NULL,
+    NatDesp                 numeric(12,0) NOT NULL ,
+    Ano                     numeric(4,0) NOT NULL,
+	TimeStamp               timestamp NOT NULL,
+    ID_ClienteCloud         bigint,
+    ID_Empresa              bigint NOT NULL,	
+	CONSTRAINT JN_Ago_NatDesp_Item_Pk PRIMARY KEY  CLUSTERED  (ID_NatDesp_Item)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_NatDesp_Item ADD CONSTRAINT JN_Ago_NatDesp_Item_U UNIQUE(NatDesp,Ano,Item_ID)
+GO
+
+/*
+ALTER TABLE JN_Ago_NatDesp_Item WITH CHECK ADD CONSTRAINT JN_Ago_NatDesp_Item_Fk FOREIGN KEY(ID_Itens)
+REFERENCES JN_Ago_Itens (ID_Itens)
+GO
+*/
+
+ALTER TABLE JN_Ago_NatDesp_Item WITH CHECK ADD CONSTRAINT JN_Ago_NatDesp_Item_Fk FOREIGN KEY(Item_ID)
+REFERENCES JN_Ago_Itens (Item_ID)
+GO
+
+/*
+ALTER TABLE JN_Ago_NatDesp_Item WITH CHECK ADD CONSTRAINT JN_Ago_NatDesp_Item_Fk_1 FOREIGN KEY(ID_NatDesp)
+REFERENCES JN_Ago_Natdesp (ID_NatDesp)
+GO
+
+ALTER TABLE JN_Ago_NatDesp_Item WITH CHECK ADD CONSTRAINT JN_Ago_NatDesp_Item_Fk_2 FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_NatDesp_Item WITH CHECK ADD CONSTRAINT JN_Ago_NatDesp_Item_Fk_2 FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+CREATE INDEX JN_Ago_NatDesp_Item_I ON JN_Ago_NatDesp_Item (Item_ID) 
+GO
+
+CREATE INDEX JN_Ago_NatDesp_Item_II ON JN_Ago_NatDesp_Item (NatDesp,Ano) 
+GO
+
+CREATE INDEX JN_Ago_NatDesp_Item_III ON JN_Ago_NatDesp_Item (NatDesp) 
+GO
+
+
+
+CREATE TABLE JN_Ago_Gpf_Ay(
+    ID_GpfAy                       bigint identity (1,1) NOT NULL,
+	ID_AnoCompra                   bigint,
+	Ano                            numeric (4,0) NOT NULL,
+    Nome                           varchar (50),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Gpf_Ay_Pk PRIMARY KEY  CLUSTERED  (ID_GpfAy)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Gpf_Ay ADD CONSTRAINT JN_Ago_Gpf_Ay_U UNIQUE(Ano, ID_GpfAy)
+GO
+
+/*
+ALTER TABLE JN_Ago_Gpf_Ay WITH CHECK ADD CONSTRAINT JN_Ago_Gpf_Ay_fk FOREIGN KEY(ID_AnoCompra)
+REFERENCES JN_Ago_Ano (ID_AnoCompra)
+GO
+*/
+
+ALTER TABLE JN_Ago_Gpf_Ay WITH CHECK ADD CONSTRAINT JN_Ago_Gpf_Ay_fk FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+CREATE INDEX JN_Ago_Gpf_Ay_I ON JN_Ago_Gpf_Ay (Ano); 
+GO
+
+CREATE TABLE JN_Ago_Eventos_Ay(
+    ID_EventosAy                  bigint identity (1,1) NOT NULL,
+	ID_Ano                        bigint,
+	Ano                           numeric (4,0) NOT NULL,
+    TipoDoc                       varchar (2),
+    Abrev                         varchar (50),
+    TimeStamp                     timestamp NOT NULL,
+    ID_ClienteCloud               bigint,
+    ID_Empresa                    bigint NOT NULL,		
+	CONSTRAINT JN_Ago_Eventos_Ay_Pk PRIMARY KEY  CLUSTERED  (ID_EventosAy) ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Eventos_Ay ADD CONSTRAINT JN_Ago_Eventos_Ay_U UNIQUE(ID_EventosAy, Ano)
+GO
+
+/*
+ALTER TABLE JN_Ago_Eventos_Ay WITH CHECK ADD CONSTRAINT JN_Ago_Eventos_Ay_Fk FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_Eventos_Ay WITH CHECK ADD CONSTRAINT JN_Ago_Eventos_Ay_Fk FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+CREATE INDEX JN_Ago_Eventos_Ay_I ON JN_Ago_Eventos_Ay (Ano); 
+GO
+
+CREATE TABLE JN_Ago_GestorCompras (
+    ID_GestorCompras               bigint identity (1,1) NOT NULL,
+    Pres_Cpl                       varchar(50),
+    Membro1_Cpl                    varchar(50),
+    Membro2_Cpl                    varchar(50),
+    Membro3_Cpl                    varchar(50),
+    Nome                           varchar(50),
+    Nome_End                       varchar(50),
+    Tipo_End                       varchar(10),
+    Num_End                        numeric(6,0),
+    Compl_End                      varchar(20),
+    Cep_End                        numeric(8,0),
+    Mbairro_Codigo                 varchar(12),
+    Mbairro_Municipio_Codigo       varchar(12),
+    Autoriza                       varchar(1) DEFAULT 'N' NOT NULL,
+    Calc_Auto                      varchar(1) DEFAULT 'N' NOT NULL,
+    Criterio                       varchar(15),
+    Nprecos                        numeric(6,0),
+    Tipo_Calc                      varchar(15),
+    Imp_Sem_Empenho                varchar(1) DEFAULT 'N' NOT NULL,
+    Com_Reserva                    varchar(1) DEFAULT 'N' NOT NULL,
+    Com_Local                      varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_Usr_FazRes                 varchar(1) DEFAULT 'N',
+    Flg_Usr_AutPed                 varchar(1) DEFAULT 'N',
+    Emp_Dotacao                    varchar(1) DEFAULT 'N' NOT NULL,
+    Emp_Convenio                   varchar(1) DEFAULT 'N' NOT NULL,
+    Emp_Local                      varchar(1) DEFAULT 'N' NOT NULL,
+    Chk_Reserva_Ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    Chk_Empenho_Ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    Ins_Reserva_Ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    Ins_Empenho_Ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    Ins_CorpoEmp_Ay                varchar(1) DEFAULT 'N' NOT NULL,
+    Emp_Reserva                    varchar(1) DEFAULT 'N' NOT NULL,
+    Verifica_MarcaMod              varchar(1) DEFAULT 'N' NOT NULL,
+    Nmeses                         numeric(6,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Bcopreco_Auto                  varchar(1) DEFAULT 'N',
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_GestorCompras_Pk_ PRIMARY KEY  CLUSTERED  (ID_GestorCompras)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_autoriza_Ck CHECK  (Autoriza='N' OR Autoriza='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Calc_Auto_Ck CHECK  (Calc_Auto='N' OR Calc_Auto='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Empenho_Ay_Ck CHECK  (Chk_Empenho_Ay='N' OR Chk_Empenho_Ay='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Reserva_Ay_Ck CHECK  (Chk_Reserva_Ay='N' OR Chk_Reserva_Ay='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Com_Local_Ck CHECK  (Com_Local='N' OR Com_Local='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Com_Reserva_Ck CHECK  (Com_Reserva='N' OR Com_Reserva='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Criterio_Ck CHECK  (Criterio='MAIOR' OR Criterio='MENOR' OR Criterio='MEDIA')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Emp_Local_Ck CHECK  (Emp_Local='N' OR Emp_Local='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Emp_Convenio_Ck CHECK  (Emp_Convenio='N' OR Emp_Convenio='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Emp_Dotacao_Ck CHECK  (Emp_Dotacao='N' OR Emp_Dotacao='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Emp_Reserva_Ck CHECK  (Emp_Reserva='N' OR Emp_Reserva='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Flg_Usr_AutPed_Ck CHECK  (Flg_Usr_AutPed='N' OR Flg_Usr_AutPed='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Flg_Usr_FazRes_Ck CHECK  (Flg_Usr_FazRes='N' OR Flg_Usr_FazRes='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Imp_Sem_Empenho_Ck CHECK  (Imp_Sem_Empenho='N' OR Imp_Sem_Empenho='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Ins_CorpoEmp_Ay_Ck CHECK  (Ins_CorpoEmp_Ay='N' OR Ins_CorpoEmp_Ay='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Ins_Empenho_Ay_Ck CHECK  (Ins_Empenho_Ay='N' OR Ins_Empenho_Ay='S')
+GO
+
+ALTER TABLE JN_Ago_GestorCompras WITH CHECK ADD  CONSTRAINT JN_Ago_GestorCompras_Ins_Reserva_Ay_Ck CHECK  (Ins_Reserva_Ay='N' OR Ins_Reserva_Ay='S')
+GO
+
+
+CREATE TABLE JN_Ago_AvailNumCompra(
+    Id_AvailNumCompra	           bigint identity (1,1) NOT NULL,
+    ID_GestorCompras               bigint NOT NULL,
+	Ano                            numeric(4,0) NOT NULL,
+    ID_AnoCompra                   bigint,
+	Lastnum_Ped                    numeric(10,0),
+    Lastnum_Compra                 numeric(10,0),
+    Lastnum_Ofor                   numeric(10,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_AvailNumCompra_Pk PRIMARY KEY  CLUSTERED  (Id_AvailNumCompra)  ON [PRIMARY])
+GO	
+
+ALTER TABLE JN_Ago_AvailNumCompra ADD CONSTRAINT JN_Ago_AvailNumCompra_U UNIQUE(ID_GestorCompras,Ano)
+GO
+
+/*
+ALTER TABLE JN_Ago_AvailNumCompra WITH CHECK ADD CONSTRAINT JN_Ago_AvailNumCompra_Fk FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_AvailNumCompra WITH CHECK ADD CONSTRAINT JN_Ago_AvailNumCompra_Fk FOREIGN KEY(Ano)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+
+ALTER TABLE JN_Ago_AvailNumCompra WITH CHECK ADD CONSTRAINT JN_Ago_AvailNumCompra_Fk_1 FOREIGN KEY(ID_GestorCompras)
+REFERENCES JN_Ago_GestorCompras (ID_GestorCompras)
+GO
+
+CREATE INDEX JN_Ago_AvailNumCompra_I ON JN_Ago_AvailNumCompra (Ano); 
+GO
+
+CREATE TABLE JN_Ago_Compras(
+    ID_Compras                     bigint identity (1,1) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+	AnoCompras                     numeric(4,0) NOT NULL,
+    ID_AnoCompra                   bigint,
+    Flg_Fechado                    varchar(1) NOT NULL,
+	ID_TipoLicitacao               bigint,
+    Objeto                         varchar(150),
+    Preco_Est                      numeric(16,2),
+    Nat_Desp                       numeric(12,0),
+    NumProc                        varchar(25),
+    Abertura                       datetime,
+    Homologacao                    datetime,
+    Publicacao                     datetime,
+    Preco_Edital                   numeric(16,2),
+    Flg_Internet                   varchar(1) DEFAULT 'N',
+    Encerramento                   datetime,
+    Cadastro                       datetime,
+    Tipo_Prop                      varchar(6) DEFAULT 'PADRÃO' NOT NULL,
+    Flg_Preco                      varchar(1) DEFAULT 'N',
+    Flg_Enviar_Email               varchar(1) DEFAULT 'N',
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+     CONSTRAINT JN_Ago_Compras_Pk PRIMARY KEY  CLUSTERED  (Id_Compras)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Compras ADD CONSTRAINT JN_Ago_Compras_U UNIQUE(ID_AnoCompra, ID_GestorCompras, ID_Compras)
+GO
+
+ALTER TABLE JN_Ago_Compras ADD CONSTRAINT JN_Ago_Compras_U_1 UNIQUE(NumProc)
+GO
+
+/*
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Compras_Fk FOREIGN KEY(ID_AnoCompra)
+REFERENCES JN_Ago_Ano (ID_AnoCompra)
+GO
+*/
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Compras_Fk FOREIGN KEY(AnoCompras)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Compras_Fk_1 FOREIGN KEY(ID_TipoLicitacao)
+REFERENCES JN_Ago_TipoLicitacao (ID_TipoLicitacao)
+GO
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Compras_Fk_2 FOREIGN KEY(ID_GestorCompras)
+REFERENCES JN_Ago_GestorCompras (ID_GestorCompras)
+GO
+
+CREATE INDEX JN_Ago_Compras_I ON JN_Ago_Compras (AnoCompras,ID_GestorCompras,ID_Compras); 
+GO
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Compras_Flg_Internet_Ck CHECK (Flg_Internet='N' OR Flg_Internet='S')
+GO
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Flg_Fechado_Ck CHECK (Flg_Fechado='N' OR Flg_Fechado='S')
+GO
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Tipo_Prop_Ck CHECK  (Tipo_Prop='PADRÃO' OR Tipo_Prop='LEILÃO')
+GO
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Flg_Preco_Ck CHECK (Flg_Preco='S' OR Flg_Preco='N')
+GO
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Flg_Enviar_Email_Ck CHECK  (Flg_Enviar_Email='S' OR Flg_Enviar_Email='N')
+GO
+
+ALTER TABLE JN_Ago_Compras WITH CHECK ADD CONSTRAINT JN_Ago_Flg_Internet_Ck CHECK  (Flg_Internet='S' OR Flg_Internet='N')
+GO
+
+
+CREATE TABLE JN_Ago_ItensCompra(
+    ID_ItensCompra                 bigint identity (1,1) NOT NULL,
+	ID_Compras                     bigint NOT NULL,
+	AnoCompras                     numeric(4,0) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+   	ItemCompras                    numeric(4,0) NOT NULL,  
+	ID_AnoCompra                   bigint,
+    Flg_Servico                    varchar(1) NOT NULL,
+	ID_UnidMed                     bigint,
+	Unidade                        varchar(15),
+    ID_Gclasses                    bigint,
+	ID_Fclasses                    bigint,
+	ID_Iclasses                    bigint,
+    Item_Mat                       numeric(7,0),
+    Item_ID                        numeric(13,0),
+	ID_Itens                       bigint,
+    Quant                          numeric,
+    Descr                          varchar(2000),
+    Preco_Est                      numeric,
+    Preco_Max                      numeric(16,2),
+    Sm_Pais                        numeric(2,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_ItensCompra_Pk PRIMARY KEY  CLUSTERED  (ID_ItensCompra)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_ItensCompra ADD CONSTRAINT JN_Ago_ItensCompra_ItensCompr_U UNIQUE(ID_AnoCompra, ID_GestorCompras, ID_Compras, ItemCompras)
+GO
+
+/*
+ALTER TABLE JN_Ago_ItensCompra WITH CHECK ADD CONSTRAINT JN_Ago_ItensCompra_Fk FOREIGN KEY(ID_AnoCompra)
+REFERENCES JN_Ago_Compras (ID_AnoCompra)
+GO
+
+ALTER TABLE JN_Ago_ItensCompra WITH CHECK ADD CONSTRAINT JN_Ago_ItensCompra_Fk_1 FOREIGN KEY(ID_UnidMed)
+REFERENCES JN_Ago_UnidMed (ID_UnidMed)
+GO
+
+ALTER TABLE JN_Ago_ItensCompra WITH CHECK ADD CONSTRAINT JN_Ago_ItensCompra_Fk_2 FOREIGN KEY(ID_Itens)
+REFERENCES JN_Ago_Itens (ID_Itens)
+GO
+*/
+
+ALTER TABLE JN_Ago_ItensCompra WITH CHECK ADD CONSTRAINT JN_Ago_ItensCompra_Fk_1 FOREIGN KEY(Unidade)
+REFERENCES JN_Ago_UnidMed (Unidade)
+GO
+
+ALTER TABLE JN_Ago_ItensCompra WITH CHECK ADD CONSTRAINT JN_Ago_ItensCompra_Fk_2 FOREIGN KEY(Item_ID)
+REFERENCES JN_Ago_Itens (Item_ID)
+GO
+
+ALTER TABLE JN_Ago_ItensCompra WITH CHECK ADD CONSTRAINT JN_Ago_ItensCompra_Fk_3 FOREIGN KEY(ID_Fclasses)
+REFERENCES JN_Ago_Fclasses  (ID_Fclasses)
+GO
+
+ALTER TABLE JN_Ago_ItensCompra WITH CHECK ADD CONSTRAINT JN_Ago_ItensCompra_Fk FOREIGN KEY(ID_Compras)
+REFERENCES JN_Ago_Compras (ID_Compras)
+GO
+
+CREATE INDEX JN_Ago_ItensCompra_I ON JN_Ago_ItensCompra (Unidade); 
+GO
+
+CREATE INDEX JN_Ago_ItensCompra_II ON JN_Ago_ItensCompra (Item_ID); 
+GO
+
+CREATE INDEX JN_Ago_ItensCompra_III ON JN_Ago_ItensCompra (ID_Fclasses,ID_Gclasses,ID_Iclasses) 
+GO
+
+ALTER TABLE JN_Ago_ItensCompra WITH CHECK ADD  CONSTRAINT JN_Ago_ItensCompra_Icompras_Flg_Servico_Ck CHECK  (Flg_Servico='N' OR Flg_Servico='S')
+GO
+
+CREATE TABLE JN_Ago_EventosCompra(
+    ID_EventosCompra               bigint identity (1,1) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+    ID_Compras                     bigint NOT NULL,
+	AnoCompras                     numeric(4,0) NOT NULL,
+	ID_AnoCompra                   bigint,
+    Data                           datetime NOT NULL,
+    Dituacao                       varchar(15),
+    Observacao                     varchar(150),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT sm_eventoscompra_pk PRIMARY KEY  CLUSTERED  (ID_EventosCompra)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_EventosCompra ADD CONSTRAINT JN_Ago_EventosCompra_U UNIQUE(AnoCompras, ID_GestorCompras, ID_Compras, Data)
+GO
+
+ALTER TABLE JN_Ago_EventosCompra WITH CHECK ADD CONSTRAINT JN_Ago_EventosCompras_Fk FOREIGN KEY(ID_Compras)
+REFERENCES JN_Ago_Compras (ID_Compras)
+GO
+
+CREATE INDEX JN_Ago_EventosCompra_I ON JN_Ago_EventosCompra (ID_AnoCompra, ID_GestorCompras, ID_Compras); 
+GO
+
+CREATE TABLE JN_Ago_Pedidos(
+    ID_Pedidos                     bigint identity (1,1) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+	AnoPed                         numeric(4,0) NOT NULL,
+	ID_AnoCompra                   bigint,
+    Convenio                       varchar(6),
+	ID_NatDesp                     bigint,
+    ID_NatDesp_Exec                bigint,
+    Usuario                        varchar(15) NOT NULL,
+    Empresa                        numeric(2,0) NOT NULL,
+    Setor                          varchar(15) NOT NULL,
+    NatDesp                        numeric(12,0),
+	Natdesp_Exec                   numeric(12,0),
+    Usu_Cot                        varchar(15),
+    Usu_Aut                        varchar(15),
+    ID_Dotacoes                    bigint,
+	ID_Projetos                    bigint,
+    Projeto                        varchar(15),
+    Reserva                        varchar(20),
+    Data                           datetime,
+    Descricao                      varchar(2000),
+    Preco_Est                      numeric(16,2),
+    Tipo                           varchar(15),
+    Flg_Servico                    varchar(1),
+    Situacao                       varchar(15),
+    Data_Sit                       datetime,
+    Tipo_Entrega                   varchar(1),
+    Entrega_Setor_Empresa          numeric(2,0),
+    Entrega                        varchar(15),
+    ID_EventosAy                   bigint,
+    ID_GpfAy                       bigint,
+    Valor01_Gpf                    numeric(16,2),
+    Valor02_Gpf                    numeric(16,2),
+    Valor03_Gpf                    numeric(16,2),
+    Valor04_Gpf                    numeric(16,2),
+    Valor05_Gpf                    numeric(16,2),
+    Valor06_Gpf                    numeric(16,2),
+    Valor07_Gpf                    numeric(16,2),
+    Valor08_Gpf                    numeric(16,2),
+    Valor09_Gpf                    numeric(16,2),
+    Valor10_Gpf                    numeric(16,2),
+    Valor11_Gpf                    numeric(16,2),
+    Valor12_Gpf                    numeric(16,2),
+    Valor13_Gpf                    numeric(16,2),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Prazo_Entr                     numeric(3,0),
+    Garantia                       varchar(50),
+    Exam_Quali                     varchar(1) DEFAULT 'N',
+    Observacao                     varchar(2000),
+    Motivo_Indeferimento           varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Pedidos_Pk PRIMARY KEY  CLUSTERED  (ID_Pedidos)  ON [PRIMARY])
+GO
+	
+ALTER TABLE JN_Ago_Pedidos ADD CONSTRAINT JN_Ago_Pedidos_U UNIQUE(ID_GestorCompras,ID_AnoCompra,ID_Pedidos)
+GO
+
+/*
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk FOREIGN KEY(ID_Ano)
+REFERENCES JN_Ago_AnoCompra (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk FOREIGN KEY(AnoPed)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_1 FOREIGN KEY(ID_Projetos)
+REFERENCES JN_Ago_Projetos (ID_Projetos)
+GO
+
+/*
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_2 FOREIGN KEY(ID_NatDesp)
+REFERENCES JN_Ago_Natdesp (ID_NatDesp)
+GO
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_3 FOREIGN KEY(ID_NatDesp_Exec)
+REFERENCES JN_Ago_Natdesp (ID_NatDesp)
+GO
+
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_2 FOREIGN KEY(NatDesp_Exec)
+REFERENCES JN_Ago_Natdesp (Numero)
+GO
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_3 FOREIGN KEY(NatDesp)
+REFERENCES JN_Ago_Natdesp (Numero)
+GO
+*/
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_4 FOREIGN KEY(ID_GpfAy)
+REFERENCES JN_Ago_Gpf_Ay (ID_GpfAy)
+GO
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_5 FOREIGN KEY(ID_EventosAy)
+REFERENCES JN_Ago_Eventos_Ay (ID_EventosAy)
+GO
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_6 FOREIGN KEY(ID_Dotacoes)
+REFERENCES JN_Ago_Dotacoes (ID_Dotacoes)
+GO
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD CONSTRAINT JN_Ago_Pedidos_Fk_7 FOREIGN KEY(ID_GestorCompras)
+REFERENCES JN_Ago_GestorCompras (ID_GestorCompras)
+GO
+
+CREATE INDEX JN_Ago_Pedidos_I ON JN_Ago_Pedidos (AnoPed); 
+GO
+
+CREATE INDEX JN_Ago_Pedidos_II ON JN_Ago_Pedidos (Projeto,AnoPed); 
+GO
+
+CREATE INDEX JN_Ago_Pedidos_III ON JN_Ago_Pedidos (NatDesp); 
+GO
+
+CREATE INDEX JN_Ago_Pedidos_IV ON JN_Ago_Pedidos (NatDesp_Exec); 
+GO
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD  CONSTRAINT JN_Ago_Pedidos_Tipo_Entrega_Ck CHECK  (Tipo_Entrega='A' OR Tipo_Entrega='S' OR Tipo_Entrega='L')
+GO
+
+ALTER TABLE JN_Ago_Pedidos WITH CHECK ADD  CONSTRAINT JN_Ago_Pedidos_Flg_Servico_Ck CHECK  (Flg_Servico='N' OR Flg_Servico='S')
+GO
+
+CREATE TABLE JN_Ago_ItensPedido(
+    ID_ItensPedido                 bigint identity (1,1) NOT NULL,
+	ID_Pedidos                     bigint NOT NULL,
+	AnoPed                         numeric(4,0) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+	ItemPed                        int NOT NULL,
+	ID_AnoPedido                   bigint,
+    Usu_Sel                        varchar(15),
+    Flg_Servico                    varchar(1) NOT NULL,
+    ID_UnidMed                     bigint,
+	Unidade                        varchar(15),
+    ID_Iclasses                    bigint,
+    ID_Gclasses                    bigint,
+	ID_Fclasses                    bigint,
+	Item_Mat                       numeric(7,0),
+	ID_Itens                       bigint,
+    Item_ID                        numeric(13,0),
+    ID_Compras                     bigint,
+	AnoCompras                     numeric(4,0),
+	ItemCompras                    bigint,
+	ID_ItensCompra                 bigint,
+    Descr                          varchar(2000),
+    Quant_Sol                      numeric,
+    Quant_Atend                    numeric,
+    Preco_Est                      numeric,
+    Flg_Autorizado                 varchar(1),
+    Data_Autorizacao               datetime,
+    Flg_Indeferido                 varchar(1),
+    Quant_contr                    numeric,
+    Quant_Entr                     numeric,
+    PrecoUnit                      numeric,
+	ID_NatDesp                     bigint,
+    NatDesp                        numeric(12,0),
+    Sm_Pais                        numeric(2,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Criterio_Cot                   varchar(15),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_ItensPedido_Pk PRIMARY KEY  CLUSTERED  (ID_ItensPedido)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_ItensPedido ADD CONSTRAINT JN_Ago_ItensPedido_U UNIQUE(ID_Pedidos, AnoPed, ID_GestorCompras, ItemPed)
+GO
+
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk FOREIGN KEY(Item_ID)
+REFERENCES JN_Ago_Itens (Item_ID)
+GO
+
+/*
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk_1 FOREIGN KEY(ID_UnidMed)
+REFERENCES JN_Ago_UnidMed (ID_UnidMed)
+GO
+*/
+
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk_1 FOREIGN KEY(Unidade)
+REFERENCES JN_Ago_UnidMed (Unidade)
+GO
+
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk_2 FOREIGN KEY(ID_Pedidos)
+REFERENCES JN_Ago_Pedidos (ID_Pedidos)
+GO
+
+/*
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk_3 FOREIGN KEY(ID_NatDesp)
+REFERENCES JN_Ago_Natdesp (ID_NatDesp)
+GO
+
+
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk_4 FOREIGN KEY(ID_ItensCompra)
+REFERENCES JN_Ago_ItensCompra(ID_ItensCompra)
+GO
+*/
+	
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk_5 FOREIGN KEY(ID_Fclasses)
+REFERENCES JN_Ago_Fclasses(ID_Fclasses)
+GO
+
+/*
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk FOREIGN KEY(ID_Itens)
+REFERENCES JN_Ago_Itens (ID_Itens)
+GO
+*/
+
+ALTER TABLE JN_Ago_ItensPedido WITH CHECK ADD CONSTRAINT JN_Ago_ItensPedido_Fk_6 FOREIGN KEY(Item_ID)
+REFERENCES JN_Ago_Itens (Item_ID)
+GO
+
+CREATE INDEX JN_Ago_ItensPedido_I ON JN_Ago_ItensPedido (Unidade); 
+GO
+
+CREATE INDEX JN_Ago_ItensPedido_II ON JN_Ago_ItensPedido (ID_GestorCompras, AnoCompras, ID_Pedidos); 
+GO
+
+CREATE INDEX JN_Ago_ItensPedido_III ON JN_Ago_ItensPedido (NatDesp, AnoPed); 
+GO
+
+CREATE INDEX JN_Ago_ItensPedido_IV ON JN_Ago_ItensPedido (ID_GestorCompras, ID_Compras, AnoCompras, ItemCompras ); 
+GO
+
+CREATE INDEX JN_Ago_ItensPedido_V ON JN_Ago_ItensPedido (ID_Iclasses, ID_Gclasses,ID_Fclasses); 
+GO
+
+CREATE INDEX JN_Ago_ItensPedido_VI ON JN_Ago_ItensPedido (NatDesp); 
+GO
+
+ALTER TABLE JN_Ago_ItensPedido  WITH CHECK ADD  CONSTRAINT JN_Ago_ItensPedido_Flg_Indeferido_Ck CHECK  (Flg_Indeferido='N' OR Flg_Indeferido='S')
+GO
+
+ALTER TABLE JN_Ago_ItensPedido  WITH CHECK ADD  CONSTRAINT JN_Ago_ItensPedido_Flg_Autorizado_Ck CHECK  (Flg_Autorizado='N' OR Flg_Autorizado='S')
+GO
+
+ALTER TABLE JN_Ago_ItensPedido  WITH CHECK ADD  CONSTRAINT JN_Ago_ItensPedido_Ipedido_Flg_Servico_Ck CHECK  (Flg_Servico='N' OR Flg_Servico='S')
+GO
+
+CREATE TABLE JN_Ago_Cotacoes(
+    ID_Cotacoes                    bigint identity (1,1) NOT NULL,
+	ID_Itens                       bigint NOT NULL,
+    Item_ID                        numeric(13,0) NOT NULL,
+    Data                           datetime NOT NULL,
+    Preco                          numeric NOT NULL,
+    Origem                         varchar(50),
+    Usuario                        varchar(15),
+    ID_Fornecedor                  bigint,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Cotacoes_Pk PRIMARY KEY  CLUSTERED  (Id_Cotacoes)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Cotacoes ADD CONSTRAINT JN_Ago_Cotacoes_U UNIQUE(ID_Cotacoes, ID_Itens)
+GO
+
+/*
+ALTER TABLE JN_Ago_Cotacoes WITH CHECK ADD CONSTRAINT JN_Ago_Cotacoes_Fk FOREIGN KEY(ID_Itens)
+REFERENCES JN_Ago_Itens (ID_Itens)
+GO
+*/
+
+ALTER TABLE JN_Ago_Cotacoes WITH CHECK ADD CONSTRAINT JN_Ago_Cotacoes_Fk FOREIGN KEY(Item_ID)
+REFERENCES JN_Ago_Itens (Item_ID)
+GO
+
+ALTER TABLE JN_Ago_Cotacoes WITH CHECK ADD CONSTRAINT JN_Ago_Cotacoes_Fk_1 FOREIGN KEY(ID_Fornecedor)
+REFERENCES JN_Ago_Fornecedor (ID_Fornecedor)
+GO
+
+CREATE INDEX JN_Ago_Cotacoes_I ON JN_Ago_Cotacoes (Item_ID); 
+GO
+
+CREATE TABLE JN_Ago_PrecoEstimado (
+    ID_PrecoEstimado               bigint identity (1,1) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+    ID_Pedidos                     bigint NOT NULL,
+	AnoPed                         numeric(4,0) NOT NULL,
+	ItemPed                        int NOT NULL,
+	Seq                            bigint NOT NULL,
+	ID_ItensPedido                 bigint,
+	ID_Ano                         bigint,
+ 	Usuario                        varchar(15) NOT NULL,
+    ID_Fornecedor                  bigint,
+    Data                           datetime,
+    Preco                          numeric,
+    Origem                         varchar(150),
+    MarcaMod                       varchar(50),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Flg_Calculo                    varchar(1),
+    Classif_Forn                   numeric(2,0),
+    Dt_Prev_Ent                    datetime,
+    Comprado                       varchar(1) DEFAULT 'N',
+    Desejado                       varchar(1) DEFAULT 'N',
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_PrecoEstimado_Pk PRIMARY KEY  CLUSTERED  (ID_PrecoEstimado)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_PrecoEstimado ADD CONSTRAINT JN_Ago_PrecoEstimado_U UNIQUE(ID_GestorCompras, AnoPed, ID_Pedidos, ItemPed)
+GO
+
+/*
+ALTER TABLE JN_Ago_PrecoEstimado WITH CHECK ADD CONSTRAINT JN_Ago_PrecoEstimado_Fk FOREIGN KEY(ID_ItensPedido)
+REFERENCES JN_Ago_ItensPedido (ID_ItensPedido)
+GO
+*/
+
+CREATE INDEX JN_Ago_PrecoEstimado_I ON JN_Ago_PrecoEstimado (ID_GestorCompras,ID_Pedidos,AnoPed,ItemPed); 
+GO
+
+
+ALTER TABLE JN_Ago_PrecoEstimado WITH CHECK ADD CONSTRAINT JN_Ago_PrecoEstimado_Fk_1 FOREIGN KEY(ID_Fornecedor)
+REFERENCES JN_Ago_Fornecedor (ID_Fornecedor)
+GO
+
+CREATE TABLE JN_Ago_Propostas(
+    ID_Propostas                   bigint identity (1,1) NOT NULL,
+	ID_Fornecedor                  bigint NOT NULL,
+    ID_GestorCompras               bigint NOT NULL,
+    ID_Compras                     bigint NOT NULL,
+	AnoCompras                     numeric(4,0) NOT NULL,
+    Flg_Desclas                    varchar(1) NOT NULL,
+	ID_AnoCompra                   int,
+    Validade                       numeric(4,0),
+    DesClassificacao               varchar(30),
+    Observacao                     varchar(150),
+    Prazo_Entr                     numeric(3,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Propostas_Pk PRIMARY KEY  CLUSTERED  (ID_Propostas)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Propostas ADD CONSTRAINT JN_Ago_Propostas_U UNIQUE(ID_Fornecedor, AnoCompras, ID_GestorCompras, ID_Compras)
+GO
+
+ALTER TABLE JN_Ago_Propostas WITH CHECK ADD CONSTRAINT JN_Ago_Propostas_Fk FOREIGN KEY(ID_Compras)
+REFERENCES JN_Ago_Compras (ID_Compras)
+GO
+
+ALTER TABLE JN_Ago_Propostas WITH CHECK ADD CONSTRAINT JN_Ago_Propostas_Fk_1 FOREIGN KEY(ID_Fornecedor)
+REFERENCES JN_Ago_Fornecedor (ID_Fornecedor)
+GO
+
+ALTER TABLE JN_Ago_Propostas WITH CHECK ADD CONSTRAINT JN_Ago_Flg_DesClas_Ck CHECK (Flg_DesClas='N' OR Flg_DesClas='S')
+GO
+
+CREATE TABLE JN_Ago_ModEmpenho_Ay(
+      ID_ModEmp                      bigint identity (1,1) NOT NULL, 
+	  ModEmp                         VARCHAR(10) NOT NULL,
+	  TimeStamp                      timestamp NOT NULL,
+      ID_ClienteCloud                bigint,
+      ID_Empresa                     bigint NOT NULL,	
+	  CONSTRAINT JN_Ago_ModEmpenho_Ay_Pk PRIMARY KEY  CLUSTERED  (ID_ModEmp) ON [PRIMARY])
+GO	
+
+CREATE TABLE JN_Ago_OrdemFornec(
+    ID_OrdemFornec                 bigint identity (1,1) NOT NULL, 
+	AnoOfor                        numeric(4,0) NOT NULL,
+	ID_Fornecedor                  bigint NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+	ID_AnoOfor                     bigint,
+    AnoCompras                     numeric(4,0) NOT NULL,
+    ID_Compras                     bigint NOT NULL,
+	ID_AnoCompras                  bigint,
+    Usuario                        varchar(15) NOT NULL,
+    Parcelas                       numeric(4,0) NOT NULL,
+    Flg_Contr                      varchar(1) NOT NULL,
+    ID_Dotacoes                    bigint,
+    Data_Emp                       datetime,
+    Data_Ini                       datetime,
+    Data_Fim                       datetime,
+    Empenho                        varchar(20),
+    Valor                          numeric(16,2),
+    Data_Contr                     datetime,
+    CorpoEmp                       numeric(8,0),
+    Tipo_Entrega                   varchar(1),
+    Entrega                        varchar(15),
+    Convenio                       varchar(6),
+    Natdesp_Exec                   numeric(12,0),
+    Data_Ofor                      datetime,
+    ID_EventosAy                   bigint,
+    ID_GpfAy                       bigint,
+    Valor01_Gpf                    numeric(16,2),
+    Valor02_Gpf                    numeric(16,2),
+    Valor03_Gpf                    numeric(16,2),
+    Valor04_Gpf                    numeric(16,2),
+    Valor05_Gpf                    numeric(16,2),
+    Valor06_Gpf                    numeric(16,2),
+    Valor07_Gpf                    numeric(16,2),
+    Valor08_Gpf                    numeric(16,2),
+    Valor09_Gpf                    numeric(16,2),
+    Valor10_Gpf                    numeric(16,2),
+    Valor11_Gpf                    numeric(16,2),
+    Valor12_Gpf                    numeric(16,2),
+    Valor13_Gpf                    numeric(16,2),
+    Reserva                        varchar(20),
+    ID_ModEmp                      bigint,
+    ID_EventosEmpAy                bigint,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Prazo_Entr                     numeric(3,0),
+    Garantia                       varchar(50),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_OrdemFornec_Pk PRIMARY KEY  CLUSTERED  (ID_OrdemFornec)  ON [PRIMARY])
+GO	
+
+ALTER TABLE JN_Ago_OrdemFornec ADD CONSTRAINT JN_Ago_OrdemFornec_U UNIQUE(ID_OrdemFornec, AnoOfor, ID_GestorCompras)
+GO
+
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD CONSTRAINT JN_Ago_OrdemFornec_Fk FOREIGN KEY(ID_Compras)
+REFERENCES JN_Ago_Compras (ID_Compras)
+GO
+
+/*
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD CONSTRAINT JN_Ago_OrdemFornec_Fk_1 FOREIGN KEY(ID_AnoOfor)
+REFERENCES JN_Ago_Ano (ID_Ano)
+GO
+*/
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD CONSTRAINT JN_Ago_OrdemFornec_Fk_1 FOREIGN KEY(AnoOfor)
+REFERENCES JN_Ago_Ano (Ano)
+GO
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD CONSTRAINT JN_Ago_OrdemFornec_Fk_2 FOREIGN KEY(ID_GpfAy)
+REFERENCES JN_Ago_Gpf_Ay (ID_GpfAy)
+GO
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD CONSTRAINT JN_Ago_OrdemFornec_Fk_3 FOREIGN KEY(ID_GestorCompras)
+REFERENCES JN_Ago_GestorCompras (ID_GestorCompras)
+GO
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD CONSTRAINT JN_Ago_OrdemFornec_Fk_4 FOREIGN KEY(ID_Fornecedor)
+REFERENCES JN_Ago_Fornecedor (ID_Fornecedor)
+GO
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD CONSTRAINT JN_Ago_OrdemFornec_Fk_9 FOREIGN KEY(ID_ModEmp)
+REFERENCES JN_Ago_ModEmpenho_Ay (ID_ModEmp)
+GO
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD CONSTRAINT JN_Ago_OrdemFornec_Fk_6 FOREIGN KEY(ID_EventosEmpAy)
+REFERENCES JN_Ago_Eventos_Ay (ID_EventosAy)
+GO
+
+CREATE INDEX JN_Ago_OrdemFornec_I ON JN_Ago_OrdemFornec (ID_EventosAy, AnoOfor); 
+GO
+
+CREATE INDEX JN_Ago_OrdemFornec_II ON JN_Ago_OrdemFornec (ID_Dotacoes, AnoOfor); 
+GO
+
+CREATE INDEX JN_Ago_OrdemFornec_III ON JN_Ago_OrdemFornec (Natdesp_Exec, AnoOfor); 
+GO
+
+CREATE INDEX JN_Ago_OrdemFornec_IV ON JN_Ago_OrdemFornec (AnoCompras, ID_GestorCompras, ID_Compras); 
+GO
+
+CREATE INDEX JN_Ago_OrdemFornec_V ON JN_Ago_OrdemFornec (AnoOfor); 
+GO
+
+CREATE INDEX JN_Ago_OrdemFornec_VI ON JN_Ago_OrdemFornec (AnoOfor, ID_GpfAy); 
+GO
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD  CONSTRAINT JN_Ago_Ordem_Tipo_Entrega_Ck CHECK  (Tipo_Entrega='A' OR Tipo_Entrega='S' OR Tipo_Entrega='L')
+GO
+
+ALTER TABLE JN_Ago_OrdemFornec WITH CHECK ADD  CONSTRAINT ck_flg_contr CHECK  (Flg_Contr='N' OR Flg_Contr='S')
+GO
+
+CREATE TABLE JN_Ago_ItensOfor(
+    ID_ItensOfor                   bigint identity (1,1) NOT NULL, 
+	ID_OrdemFornec                 bigint NOT NULL,
+	AnoOfor                        numeric(4,0) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+	ItemOfor                       bigint NOT NULL,
+	ID_AnoOfor                     bigint,
+	ID_Compras                     bigint,
+	ItemCompras                    numeric(4,0) NOT NULL,  
+    ID_ItensCompra                 bigint,
+	ID_AnoCompra                   bigint,
+	AnoCompras                     numeric(4,0) NOT NULL,
+    Quant                          numeric,
+    Preco_Unit                     numeric,
+    Preco_Tot                      numeric(16,2),
+    Descricao                      varchar(2000),
+    Codigo_Barra                   varchar(15),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Empenho                        varchar(20),
+    CorpoEmp                       numeric(8,0),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_ItensOfor_Pk PRIMARY KEY  CLUSTERED  (ID_ItensOfor)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_ItensOfor ADD CONSTRAINT JN_Ago_ItensOfor_U UNIQUE(ID_GestorCompras, AnoOfor, ID_OrdemFornec, ItemOfor)
+GO
+
+ALTER TABLE JN_Ago_ItensOfor WITH CHECK ADD CONSTRAINT JN_Ago_ItensOfor_Fk FOREIGN KEY(ID_OrdemFornec)
+REFERENCES JN_Ago_OrdemFornec (ID_OrdemFornec)
+GO
+
+/*
+ALTER TABLE JN_Ago_ItensOfor WITH CHECK ADD CONSTRAINT JN_Ago_ItensOfor_Fk_1 FOREIGN KEY(ID_ItensCompra)
+REFERENCES JN_Ago_ItensCompra (ID_ItensCompra)
+GO
+*/
+
+CREATE TABLE JN_Ago_ItPed_Ofor(
+    ID_ItPed_Ofor                  bigint identity (1,1) NOT NULL, 
+	ID_OrdemFornec                 bigint NOT NULL,
+	ID_Pedidos                     bigint NOT NULL,
+	AnoOfor                        numeric(4,0) NOT NULL,
+	ItemOfor                       int NOT NULL,
+	AnoPed                         numeric(4,0) NOT NULL,
+	ItemPed                        numeric(4,0) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+	ID_ItensOfor                   bigint,
+	ID_ItensPedido                 bigint,
+	ID_AnoOfor                     bigint,
+	ID_AnoPed                      bigint,
+    Quant_Contr                    numeric NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_ItPed_Ofor_Pk PRIMARY KEY  CLUSTERED  (ID_ItPed_Ofor)  ON [PRIMARY])
+GO
+
+
+ALTER TABLE JN_Ago_ItPed_Ofor ADD CONSTRAINT JN_Ago_ItPed_Ofor_U UNIQUE(ID_GestorCompras, ID_OrdemFornec, AnoOfor, ItemOfor, ID_Pedidos, AnoPed, ItemPed)
+GO
+
+ALTER TABLE JN_Ago_ItPed_Ofor WITH CHECK ADD CONSTRAINT JN_Ago_Itped_Ofor_Fk FOREIGN KEY(ID_ItensPedido)
+REFERENCES JN_Ago_ItensPedido (ID_ItensPedido)
+GO
+
+ALTER TABLE JN_Ago_ItPed_Ofor WITH CHECK ADD CONSTRAINT JN_Ago_ItPed_Ofor_Fk_1 FOREIGN KEY(ID_ItensOfor)
+REFERENCES JN_Ago_ItensOfor (ID_ItensOfor)
+GO
+
+CREATE TABLE JN_Ago_Parcelas(
+    ID_Parcelas                    bigint identity (1,1) NOT NULL, 
+	ID_OrdemFornec                 bigint NOT NULL,
+	AnoOfor                        numeric(4,0) NOT NULL,
+	NumPar                         numeric(4,0) NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+	ID_AnoOfor                     bigint,
+    Data_Prev                      datetime,
+    Data_Entr                      datetime,
+    Local_Entrega                  varchar(150),
+    NotaFiscal                     varchar(15),
+    Flg_Cancel                     varchar(1) DEFAULT 'N',
+    Flg_Entrega_Ok                 varchar(1),
+    Valor                          numeric(16,2),
+    Empenho                        varchar(20),
+    Tipo_Entrega                   varchar(240),
+    ID_Almoxarifados               bigint,
+    Setor                          varchar(15),
+    Empresa                        numeric(2,0),
+    ID_LocaisEntregas              bigint,
+    Usuario                        varchar(15),
+    Entrega                        varchar(15),
+    ID_Entradas                    bigint,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Flg_Desdobrada                 varchar(1),
+    Parcela_Orig                   numeric,
+	ID_parcelasOrig                bigint,
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Parcelas_Pk PRIMARY KEY  CLUSTERED  (ID_Parcelas)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_Parcelas ADD CONSTRAINT JN_Ago_Parcelas_U UNIQUE(ID_OrdemFornec, AnoOfor, ID_GestorCompras, NumPar)
+GO
+
+ALTER TABLE JN_Ago_Parcelas WITH CHECK ADD CONSTRAINT JN_Ago_Parcelas_Fk FOREIGN KEY(ID_Almoxarifados)
+REFERENCES JN_Ago_Almoxarifados (ID_Almoxarifados)
+GO
+
+ALTER TABLE JN_Ago_Parcelas WITH CHECK ADD CONSTRAINT JN_Ago_Parcelas_Fk_3 FOREIGN KEY(ID_LocaisEntregas)
+REFERENCES JN_Ago_Locais_Entregas (ID_LocaisEntregas)
+GO
+
+ALTER TABLE JN_Ago_Parcelas WITH CHECK ADD CONSTRAINT JN_Ago_Parcelas_Fk_2 FOREIGN KEY(ID_OrdemFornec)
+REFERENCES JN_Ago_OrdemFornec (ID_OrdemFornec)
+GO
+
+CREATE INDEX JN_Ago_Parcelas_I ON JN_Ago_Parcelas (ID_OrdemFornec, AnoOfor, ID_GestorCompras ); 
+GO
+
+ALTER TABLE JN_Ago_Parcelas WITH CHECK ADD CONSTRAINT JN_Ago_Parcela_Tipo_Entrega_Ck CHECK  (Tipo_Entrega='L' OR Tipo_Entrega='S')
+GO
+
+ALTER TABLE JN_Ago_Parcelas WITH CHECK ADD CONSTRAINT JN_Ago_Parcela_Flg_Entrega_Ck CHECK  (Flg_Entrega_ok='S' OR Flg_Entrega_ok='N')
+GO
+
+CREATE TABLE JN_Ago_Entradas(
+    ID_Entradas                    bigint identity (1,1) NOT NULL,
+    ID_Almoxarifados               bigint NOT NULL,
+    Flg_Consol                     varchar(1) NOT NULL,
+    Tipo                           varchar(15) NOT NULL,
+    Usu_Consol                     varchar(15),
+    Usuario                        varchar(15),
+    ID_Fornecedor                  bigint,
+    ID_OrdemFornec                 bigint,
+	ID_AnoOfor                     bigint,
+    AnoOfor                        numeric(4,0),
+    ID_GestorCompras               bigint,
+    ID_Parcelas                    bigint,
+	NumPar                         numeric(4,0),
+    Gest_Patr                      numeric(10,0),
+    Gespatr_Numero                 numeric(10,0),
+    Data_Consol                    datetime,
+    Data_Entrega                   datetime,
+    Empenho                        varchar(20),
+    NotaFiscal                     varchar(15),
+    Almox_Orig                     bigint,
+    Num_Sai_Orig                   numeric(10,0),
+    Ent_Empenho                    varchar(20),
+    NumProc                        varchar(25),
+    Num_Sai_Ger                    numeric(10,0),
+    Setor_Sai_Ger                  varchar(15),
+    Emp_SetorSai_Ger               numeric(2,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flg_Patrim                     varchar(1),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Class_Orc                      varchar(20),
+    Class_Ent                      varchar(15),
+    Tipo_Patr                      varchar(15),
+    ID_AlmoxEntOrig                bigint,
+    Ent_Orig                       numeric(10,0),
+    Flg_Finaliz                    varchar(1),
+    Data_Finaliz                   datetime,
+    Usu_Finaliz                    varchar(15),
+    Situacao_Ent                   varchar(30),
+    Usu_Sit_Ent                    varchar(30),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_Entradas_Pk PRIMARY KEY  CLUSTERED  (ID_Entradas)  ON [PRIMARY])
+GO	
+
+ALTER TABLE JN_Ago_Entradas ADD CONSTRAINT JN_Ago_Entradas_U UNIQUE(ID_Entradas, ID_Almoxarifados)
+GO
+	
+ALTER TABLE JN_Ago_Entradas WITH CHECK ADD CONSTRAINT JN_Ago_Entradas_Fk FOREIGN KEY(ID_Parcelas)
+REFERENCES JN_Ago_Parcelas (ID_Parcelas)
+GO
+
+ALTER TABLE JN_Ago_Entradas WITH CHECK ADD CONSTRAINT JN_Ago_Entradas_Fk_1 FOREIGN KEY(ID_Almoxarifados)
+REFERENCES JN_Ago_Almoxarifados (ID_Almoxarifados)
+GO
+
+ALTER TABLE JN_Ago_Entradas WITH CHECK ADD CONSTRAINT JN_Ago_Entradas_Fk_2 FOREIGN KEY(ID_Fornecedor)
+REFERENCES JN_Ago_Fornecedor (ID_Fornecedor)
+GO
+
+CREATE INDEX JN_Ago_Entradas_I ON JN_Ago_Entradas (ID_OrdemFornec, AnoOfor, ID_GestorCompras, Numpar ); 
+GO
+
+ALTER TABLE JN_Ago_Entradas WITH CHECK ADD  CONSTRAINT JN_Ago_Ent_Flg_Consol_Ck CHECK  (Flg_Consol='N' OR Flg_Consol='S')
+GO
+
+ALTER TABLE JN_Ago_Entradas WITH CHECK ADD  CONSTRAINT JN_Ago_Ent_FlgPatrim_Ck CHECK  (Flg_Patrim='N' OR Flg_Patrim='S')
+GO
+
+ALTER TABLE JN_Ago_Entradas WITH CHECK ADD  CONSTRAINT JN_Ago_Flg_Consol_Ck CHECK  (Flg_Consol='N' OR Flg_Consol='S')
+GO
+
+CREATE NONCLUSTERED INDEX JN_Ago_Ent_DataConsol_I ON JN_Ago_Entradas (Data_Consol ASC,ID_Entradas ASC,ID_Almoxarifados ASC)
+
+CREATE TABLE JN_Ago_Local_Mat(
+    ID_LocalMat                    bigint identity (1,1) NOT NULL,
+    ID_Almoxarifados               bigint NOT NULL,
+    Desc_Local                     varchar(100),
+    Cod_Barras                     numeric(15,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_Local_Mat_Pk PRIMARY KEY  CLUSTERED  (ID_LocalMat)  ON [PRIMARY])
+GO
+	
+ALTER TABLE JN_Ago_Local_Mat ADD CONSTRAINT JN_Ago_Local_Mat_U UNIQUE(ID_Almoxarifados, ID_LocalMat)
+GO
+
+ALTER TABLE JN_Ago_Local_Mat ADD CONSTRAINT JN_Ago_Local_Mat_U_I UNIQUE(Cod_Barras)
+GO
+
+ALTER TABLE JN_Ago_Local_Mat WITH CHECK ADD CONSTRAINT JN_Ago_Local_Mat_Fk FOREIGN KEY(ID_Almoxarifados)
+REFERENCES JN_Ago_Almoxarifados (ID_Almoxarifados)
+GO
+
+CREATE TABLE JN_Ago_MaterialAlmox(
+    ID_MaterialAlmox               bigint identity (1,1) NOT NULL,
+    ID_Almoxarifados               bigint not null ,
+	Item_ID                        numeric(13,0) NOT NULL,
+	ID_Itens                       bigint,
+    Contabilizacao                 varchar(15) NOT NULL,
+    Contr_Cota                     varchar(1) NOT NULL,
+    ID_LocalMat                    bigint,
+    Consumo                        numeric,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_MaterialAlmox_Pk PRIMARY KEY  CLUSTERED  (ID_MaterialAlmox)  ON [PRIMARY])
+GO	
+
+ALTER TABLE JN_Ago_MaterialAlmox ADD CONSTRAINT JN_Ago_MaterialAlmox_U UNIQUE(ID_Almoxarifados, Item_ID)
+GO
+	
+ALTER TABLE JN_Ago_MaterialAlmox WITH CHECK ADD CONSTRAINT JN_Ago_MaterialAlmox_Fk FOREIGN KEY(ID_Almoxarifados)
+REFERENCES JN_Ago_Almoxarifados (ID_Almoxarifados)
+GO
+
+ALTER TABLE JN_Ago_MaterialAlmox WITH CHECK ADD CONSTRAINT JN_MaterialAlmox_Fk_1 FOREIGN KEY(ID_LocalMat)
+REFERENCES JN_Ago_Local_Mat (ID_LocalMat)
+GO
+
+CREATE INDEX JN_Ago_MaterialAlmox_I ON JN_Ago_MaterialAlmox (Item_ID); 
+GO
+
+CREATE TABLE JN_Ago_ItensParcela(
+    ID_ItensParcela                bigint identity (1,1) NOT NULL,
+	ID_Parcelas                    bigint NOT NULL,
+	ItemOfor                       int NOT NULL,
+	ID_OrdemFornec                 bigint NOT NULL,
+	ID_GestorCompras               bigint NOT NULL,
+	AnoOfor                        numeric(4,0) NOT NULL,
+	ID_ItensOfor                   bigint,
+    ID_AnoOfor                     bigint,
+    Quant                          numeric NOT NULL,
+    Valor                          numeric,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Flg_Desdobrada                 varchar(1),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_ItensParcela_Pk PRIMARY KEY  CLUSTERED  (ID_ItensParcela)  ON [PRIMARY])
+GO
+	
+ALTER TABLE JN_Ago_ItensParcela ADD CONSTRAINT JN_Ago_ItensParcela_U UNIQUE(ID_OrdemFornec, ItemOfor, ID_Parcelas, ID_GestorCompras,  AnoOfor)
+GO
+
+ALTER TABLE JN_Ago_ItensParcela WITH CHECK ADD CONSTRAINT JN_Ago_ItensParcela_Fk FOREIGN KEY(ID_Parcelas)
+REFERENCES JN_Ago_Parcelas (ID_Parcelas)
+GO
+
+/*
+ALTER TABLE JN_Ago_ItensParcela WITH CHECK ADD CONSTRAINT JN_Ago_ItensParcela_Fk_1 FOREIGN KEY(ID_ItensOfor)
+REFERENCES JN_Ago_ItensOfor (ID_ItensOfor)
+GO
+*/
+
+
+CREATE INDEX JN_Ago_ItensParcela_I ON JN_Ago_ItensParcela (ID_OrdemFornec, AnoOfor, ItemOfor, ID_GestorCompras); 
+GO
+
+CREATE TABLE JN_Ago_ItPed_Parcela(
+    ID_ItPed_Parcela               bigint identity (1,1) NOT NULL,
+	ItemOfor                       int NOT NULL,
+	AnoOfor                        numeric(4,0) NOT NULL,
+	NumPar                         numeric(4,0) NOT NULL,
+	ID_OrdemFornec                 bigint NOT NULL,
+	AnoPed                         numeric(4,0) NOT NULL,
+    ItemPed                        int NOT NULL,
+	ID_Pedidos                     bigint NOT NULL,
+	ID_GestorCompras               int NOT NULL,
+	ID_ItensOfor                   bigint,
+	ID_ItensPedido                 bigint,
+    ID_ItensParcela                bigint,
+    Quant                          numeric NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+	CONSTRAINT JN_Ago_ItPed_Parcela_Pk PRIMARY KEY  CLUSTERED  (ID_ItPed_Parcela)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_ItPed_Parcela ADD CONSTRAINT JN_Ago_ItPed_Parcela_U UNIQUE(NumPar, ID_OrdemFornec, ItemPed, ID_Pedidos, AnoPed, ItemOfor)
+GO
+
+ALTER TABLE JN_Ago_ItPed_Parcela WITH CHECK ADD CONSTRAINT JN_Ago_Itped_Parcela_Fk FOREIGN KEY(ID_ItensPedido)
+REFERENCES JN_Ago_ItensPedido (ID_ItensPedido)
+GO
+
+ALTER TABLE JN_Ago_ItPed_Parcela WITH CHECK ADD CONSTRAINT JN_Ago_ItPed_Parcela_Fk_1 FOREIGN KEY(ID_ItensParcela)
+REFERENCES JN_Ago_ItensParcela (ID_ItensParcela)
+GO
+
+CREATE INDEX JN_Ago_ItPed_Parcela_I ON JN_Ago_ItPed_Parcela (ID_OrdemFornec, ItemOfor, NumPar, AnoOfor,ID_GestorCompras); 
+GO
+
+
+CREATE TABLE JN_Ago_ItensProposta(
+    ID_ItensProposta               bigint identity (1,1) NOT NULL, 
+    ID_Propostas                   bigint NOT NULL,
+	ID_Fornecedor                  bigint NOT NULL,
+ 	ItemCompras                    numeric(4,0) NOT NULL,
+	ID_Compras                     bigint NOT NULL,
+    ID_GestorCompras               bigint NOT NULL,
+	Ano                            numeric(4,0) NOT NULL,
+    ID_ItensCompra                 bigint,
+	ID_Ano                         bigint,  
+    Flg_DesClas                    varchar(1) NOT NULL,
+    Preco                          numeric,
+    Garantia                       varchar(50),
+    Classificacao                  numeric(4,0),
+    Descricao                      varchar(2000),
+    Quant                          numeric,
+    PrecoUnit                      numeric,
+    MarcaMod                       varchar(50),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_ItensProposta_Pk PRIMARY KEY  CLUSTERED  (ID_ItensProposta)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_ItensProposta ADD CONSTRAINT JN_Ago_ItensProposta_U UNIQUE(ID_Fornecedor, ID_Ano, ID_ItensCompra, ID_GestorCompras, ID_Compras)
+GO
+
+/*	
+ALTER TABLE JN_Ago_ItensProposta WITH CHECK ADD CONSTRAINT JN_Ago_ItensProposta_Fk FOREIGN KEY(ID_ItensCompra)
+REFERENCES JN_Ago_ItensCompra (ID_ItensCompra)
+GO
+*/
+
+
+ALTER TABLE JN_Ago_ItensProposta WITH CHECK ADD CONSTRAINT JN_Ago_ItensProposta_Fk_1 FOREIGN KEY(ID_Propostas)
+REFERENCES JN_Ago_Propostas (ID_Propostas)
+GO
+
+CREATE INDEX JN_Ago_ItensProposta_I ON JN_Ago_ItensProposta (ID_Compras, ItemCompras, ID_GestorCompras); 
+GO
+
+
+ALTER TABLE JN_Ago_ItensProposta WITH CHECK ADD  CONSTRAINT JN_Ago_ItensProposta_Flg_Desclas_Ck CHECK  (Flg_Desclas='N' OR Flg_Desclas='S')
+GO
+
+
+CREATE TABLE JN_Ago_ItensEnt(
+    ID_ItensEnt                    bigint identity (1,1) NOT NULL,
+	ID_Entradas                    bigint NOT NULL,
+	ID_Almoxarifados               bigint NOT NULL,
+	Item_ID                        numeric(13,0) NOT NULL,
+	ID_MaterialAlmox               bigint,
+	ID_Itens                       bigint,
+    Quant                          numeric NOT NULL,
+    Valor                          numeric NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	ID_GestorCompras               bigint,
+    ID_OrdemFornec                 bigint,
+    AnoOfor                        numeric(4,0),
+    ItemOfor                       numeric(4,0),
+    NumPar                         numeric(4,0),
+	ID_Parcelas                    bigint,
+    TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,
+	CONSTRAINT JN_Ago_ItensEnt_pk PRIMARY KEY  CLUSTERED  (ID_ItensEnt)  ON [PRIMARY])
+GO
+
+ALTER TABLE JN_Ago_ItensEnt ADD CONSTRAINT JN_Ago_ItensEnt_u UNIQUE(ID_Almoxarifados, ID_Entradas, Item_ID)
+GO
+	
+ALTER TABLE JN_Ago_ItensEnt WITH CHECK ADD CONSTRAINT JN_Ago_ItensEnt_Fk FOREIGN KEY(ID_MaterialAlmox)
+REFERENCES JN_Ago_MaterialAlmox (ID_MaterialAlmox)
+GO
+
+ALTER TABLE JN_Ago_ItensEnt WITH CHECK ADD CONSTRAINT JN_Ago_ItensEnt_Fk_1 FOREIGN KEY(ID_Entradas)
+REFERENCES JN_Ago_Entradas (ID_Entradas)
+GO
+
+CREATE INDEX JN_Ago_ItensEnt_I ON JN_Ago_ItensEnt (ID_Entradas, ID_Almoxarifados); 
+GO
+
+
+CREATE TABLE JN_Ago_Comentario (	
+    ID_Comentario			int identity (1,1) NOT NULL, 
+	Data_Coment 			datetime NOT NULL,
+	Usuario					varchar(15) NOT NULL,
+	Comentario 				varchar(2000),
+	Tabela       			varchar(100),
+	Chave_01    			varchar(100),
+	Valor_01    			varchar(100),
+	Chave_02          		varchar(100),
+	Valor_02          		varchar(100),
+	Chave_03          		varchar(100),
+	Valor_03          		varchar(100),
+	Chave_04          		varchar(100),
+	Valor_04          		varchar(100),
+	Chave_05          		varchar(100),
+	Valor_05          		varchar(100),
+	Chave_06          		varchar(100),
+	Valor_06          		varchar(100),
+	Chave_07          		varchar(100),
+	Valor_07          		varchar(100),
+	Chave_08          		varchar(100),	
+	Valor_08          		varchar(100),
+	Flex_Campo_01 			varchar(2000),
+	Flex_Campo_02 			varchar(2000),
+	Flex_Campo_03 			varchar(2000),
+	Flex_Campo_04 			varchar(2000),
+	Flex_Campo_05 			varchar(2000),
+	Flex_Campo_06 			varchar(2000),
+	TimeStamp                      timestamp NOT NULL,
+    ID_ClienteCloud                bigint,
+    ID_Empresa                     bigint NOT NULL,	
+     CONSTRAINT JN_Ago_Comentario_Pk PRIMARY KEY  CLUSTERED  (Id_Comentario)  ON [PRIMARY])
+GO	
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+-- Tarefa 79033 - Edna - 14/05/2013 - v4.29
+CREATE VIEW agoadm00401_sm_natdesp
+AS
+  SELECT a.NUMERO,
+    a.NOME,
+    a.DESATIV,
+    a.ORC,
+    a.EXECUCAO,
+    a.NATBEM,
+    a.VIDAUCONT,
+    a.INDICE_RESIDUAL,
+    a.ANO,
+    a.FLEX_CAMPO_01,
+    a.FLEX_CAMPO_02,
+    a.FLEX_CAMPO_03,
+    a.FLEX_CAMPO_04,
+    a.FLEX_CAMPO_05,
+    a.FLEX_CAMPO_06,
+    a.FLEX_CAMPO_07,
+    a.FLEX_CAMPO_08,
+    a.FLEX_CAMPO_09,
+    a.FLEX_CAMPO_10,
+    a.id AS rowid_reg
+  FROM sm_natdesp a     
+GO    
+INSERT INTO HAD_FIX
+(IDENT,DESCRICAO,DATAALTERACAO,SIS,TIPOOBJ,OBJETO,VERSAO)
+VALUES
+('TAREFA79033','Criação da view no SQL Server',
+ TO_DATE('14/05/2013','DD/MM/YYYY'),'AGORA','VIEW','AGOADM00401_SM_NATDESP','4.29')
+/
+COMMIT
+/
+   
+   

@@ -1,0 +1,38 @@
+CREATE TABLE SM_Locais_Entregas(
+    Local                          varchar(15) NOT NULL,
+    Nome                           varchar(50) NOT NULL,
+    Tipo_log                       varchar(10) NOT NULL,
+    Nome_log                       varchar(50) NOT NULL,
+    Num_log                        numeric(6,0) NOT NULL,
+    Uf                             varchar(2) NOT NULL,
+    Cep                            varchar(9) NOT NULL,
+    Fone                           varchar(15),
+    Fax                            varchar(15),
+    Complemento                    varchar(20),
+    Mbairro_codigo                 varchar(12) NOT NULL,
+    Mbairro_municipio_codigo       varchar(12) NOT NULL,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	CONSTRAINT SM_locais_entregas_pk PRIMARY KEY  CLUSTERED  (local)  ON [PRIMARY])
+GO
+
+alter table SM_Locais_Entregas add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_Locais_Entregas_TimeStamp ON SM_Locais_Entregas(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Locais_Entregas_ClienteCloud ON SM_Locais_Entregas(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Locais_Entregas_Empresa ON SM_Locais_Entregas (ID_Empresa)
+GO
+

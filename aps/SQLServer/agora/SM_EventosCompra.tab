@@ -1,0 +1,44 @@
+CREATE TABLE SM_EventosCompra(
+    ID_EventosCompra               bigint identity (1,1) NOT NULL,
+	Gcompra_numero                 bigint NOT NULL,
+    Numcompr                       numeric(10,0) NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Data                           datetime NOT NULL,
+    Situacao                       varchar(15),
+    Observacao                     varchar(150),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	ID_Compras                     bigint,
+	CONSTRAINT SM_EventosCompra_pk PRIMARY KEY  CLUSTERED  (ID_EventosCompra)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_EventosCompra ADD CONSTRAINT Ix_SM_EventosCompra_u UNIQUE(Ano, Gcompra_Numero, NumCompr, data)
+GO
+
+ALTER TABLE SM_EventosCompra WITH CHECK ADD CONSTRAINT SM_EventosCompras_fk FOREIGN KEY(ID_Compras)
+REFERENCES SM_Compras (ID_Compras)
+GO
+
+alter table SM_EventosCompra add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_EventosCompra_TimeStamp ON SM_EventosCompra(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_EventosCompra_TimeStamp ON SM_EventosCompra(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_EventosCompra_ClienteCloud ON SM_EventosCompra(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_EventosCompra_Empresa ON SM_EventosCompra (ID_Empresa)
+GO
+

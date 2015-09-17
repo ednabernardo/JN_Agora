@@ -1,0 +1,58 @@
+CREATE TABLE SM_PrecoEstimado (
+    ID_PrecoEstimado               bigint identity (1,1) NOT NULL,
+	Gcompra_numero                 bigint NOT NULL,
+    Numped                         numeric(10,0) NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Itemped                        numeric(4,0) NOT NULL,    
+    Seq                            numeric(10,0) NOT NULL,
+	Usuario                        varchar(15) NOT NULL,
+    Numfornec                      bigint,
+    Data                           datetime,
+    Preco                          numeric(16,2),
+    Origem                         varchar(150),
+    Marcamod                       varchar(50),
+    Especificacao                  varchar(2000),
+	Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Flg_calculo                    varchar(1),
+    Classif_forn                   numeric(2,0),
+    Dt_prev_ent                    datetime,
+	TipoPrazo                      varchar(100),
+    Comprado                       varchar(1) DEFAULT 'N',
+    Desejado                       varchar(1) DEFAULT 'N',
+	ID_ItensPedido                 bigint,
+	ID_Pedidos                     bigint,
+	CONSTRAINT SM_PrecoEstimado_pk PRIMARY KEY  CLUSTERED  (ID_PrecoEstimado)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_PrecoEstimado ADD CONSTRAINT Ix_SM_PrecoEstimado_u UNIQUE(Gcompra_Numero, Ano, Numped, ItemPed, Seq)
+GO
+
+ALTER TABLE SM_PrecoEstimado WITH CHECK ADD CONSTRAINT SM_PrecoEstimado_fk FOREIGN KEY(ID_ItensPedido)
+REFERENCES SM_ItensPedido (ID_ItensPedido)
+GO
+
+ALTER TABLE SM_PrecoEstimado WITH CHECK ADD CONSTRAINT SM_PrecoEstimado_fk_1 FOREIGN KEY(NumFornec)
+REFERENCES SM_Fornecedor (NumFornec)
+GO
+
+alter table SM_PrecoEstimado add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_PrecoEstimado_TimeStamp ON SM_PrecoEstimado(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_PrecoEstimado_ClienteCloud ON SM_PrecoEstimado(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_PrecoEstimado_Empresa ON SM_PrecoEstimado (ID_Empresa)
+GO
+

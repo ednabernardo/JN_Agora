@@ -1,0 +1,82 @@
+CREATE TABLE SM_Itens(
+    ID_Itens                       bigint identity (1,1) NOT NULL, 
+    itemid                         numeric(13,0) NOT NULL,
+    Item_classe					   bigint NOT NULL,
+    Grupo_Classe				   numeric(2,0) NOT NULL,
+    Fam_Classe			           numeric(3,0) NOT NULL,
+    Item                           numeric(7,0),
+    Nome                           varchar(50) NOT NULL,
+    Unidade                        varchar(15) NOT NULL,
+    Flg_lote                       varchar(1) DEFAULT 'N' NOT NULL,
+    Especif                        text,
+    Tipo_patr                      varchar(15),
+    Vidaufis                       numeric(6,0),
+    Num_antigo                     varchar(15),
+    Flg_fracao                     varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_decimal                    varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_desuso                     varchar(1) DEFAULT 'N' NOT NULL,
+    SM_pais                        numeric(2,0),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Cod_inc                        varchar(6),
+	ID_Fclasses                    bigint,
+	ID_Gclasses                    bigint,
+	CONSTRAINT SM_Itens_pk PRIMARY KEY  CLUSTERED  (ID_Itens)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Itens ADD CONSTRAINT Ix_SM_itens_u_1 UNIQUE(item, Item_Classe, 
+  Grupo_Classe, Fam_Classe, SM_pais)
+GO
+
+ALTER TABLE SM_Itens ADD CONSTRAINT Ix_SM_Itens_u_2 UNIQUE(ItemId)
+GO
+
+ALTER TABLE SM_Itens WITH CHECK ADD CONSTRAINT SM_Itens_fk FOREIGN KEY(Unidade)
+REFERENCES SM_UnidMed (Unidade)
+GO
+
+ALTER TABLE SM_Itens WITH CHECK ADD CONSTRAINT SM_itens_fk_1 FOREIGN KEY(Cod_Inc)
+REFERENCES SM_Inc (Cod_Inc)
+GO
+
+ALTER TABLE SM_Itens WITH CHECK ADD CONSTRAINT SM_itens_fk_2 FOREIGN KEY(ID_Fclasses)
+REFERENCES SM_Fclasses (ID_FClasses)
+GO
+
+ALTER TABLE SM_Itens  WITH CHECK ADD  CONSTRAINT ck_Itens_Flg_Desuso CHECK  (Flg_Desuso='N' OR Flg_Desuso='S')
+GO
+
+ALTER TABLE SM_Itens  WITH CHECK ADD  CONSTRAINT ck_Itens_Flg_Decimal CHECK  (Flg_Decimal='N' OR Flg_Decimal='S')
+GO
+
+ALTER TABLE SM_Itens  WITH CHECK ADD  CONSTRAINT ck_Itens_Flg_Fracao CHECK  (Flg_Fracao='N' OR Flg_Fracao='S')
+GO
+
+ALTER TABLE SM_Itens  WITH CHECK ADD  CONSTRAINT ck_Itens_Tipo_Patr CHECK  (Tipo_Patr='PLAQ' OR Tipo_Patr='NPLAQ' OR Tipo_Patr='IMOV')
+GO
+
+ALTER TABLE SM_Itens  WITH CHECK ADD  CONSTRAINT ck_Itens_Flg_Lote CHECK  (Flg_Lote='N' OR Flg_Lote='S')
+GO
+
+alter table SM_Itens add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_Itens_TimeStamp ON SM_Itens(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Itens_ClienteCloud ON SM_Itens(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Itens_Empresa ON SM_Itens (ID_Empresa)
+GO
+
+
+

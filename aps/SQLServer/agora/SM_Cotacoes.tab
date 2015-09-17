@@ -1,0 +1,45 @@
+CREATE TABLE SM_Cotacoes(
+    Seq                            bigint identity (1,1) NOT NULL,
+	ItemId			               numeric(13,0) NOT NULL,
+    Data                           datetime NOT NULL,
+    Preco                          numeric NOT NULL,
+    Origem                         varchar(200),
+    Usuario                        varchar(15),
+    Numfornec                      bigint,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	ID_Itens                       bigint,
+	CONSTRAINT SM_Cotacoes_pk PRIMARY KEY  CLUSTERED  (Seq)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Cotacoes ADD CONSTRAINT Ix_SM_Cotacoes_u UNIQUE(Seq, ItemId)
+GO
+
+ALTER TABLE SM_Cotacoes WITH CHECK ADD CONSTRAINT SM_Cotacoes_fk FOREIGN KEY(ID_Itens)
+REFERENCES SM_Itens (ID_Itens)
+GO
+
+ALTER TABLE SM_Cotacoes WITH CHECK ADD CONSTRAINT SM_cotacoes_fk_1 FOREIGN KEY(NumFornec)
+REFERENCES SM_Fornecedor (NumFornec)
+GO
+
+alter table SM_Cotacoes add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_Cotacoes_TimeStamp ON SM_Cotacoes(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Cotacoes_ClienteCloud ON SM_Cotacoes(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Cotacoes_Empresa ON SM_Cotacoes (ID_Empresa)
+GO
+

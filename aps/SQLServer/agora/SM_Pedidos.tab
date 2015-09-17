@@ -1,0 +1,120 @@
+CREATE TABLE SM_Pedidos(
+    ID_Pedidos                     bigint identity (1,1) NOT NULL,
+	Gcompra_numero                 bigint NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Numped                         numeric(10,0) NOT NULL,
+    Convenio                       varchar(6),
+    Natdesp_exec                   numeric(12,0),
+    Usuario                        varchar(15) NOT NULL,
+    Empresa                        numeric(2,0) NOT NULL,
+    Setor                          varchar(15) NOT NULL,
+    Natdesp                        numeric(12,0),
+    Usu_cot                        varchar(15),
+    Usu_aut                        varchar(15),
+    Dot_seq_dot                    bigint ,
+    Projeto                        varchar(15),
+    Reserva                        varchar(20),
+    Data                           datetime,
+    Descricao                      varchar(2000),
+    Preco_est                      numeric(16,2),
+    Tipo                           varchar(15),
+    Flg_servico                    varchar(1),
+    Situacao                       varchar(15),
+    Data_sit                       datetime,
+    Tipo_entrega                   varchar(1),
+    Entrega_setor_empresa          numeric(2,0),
+    Entrega                        varchar(15),
+    Evres_ay                       numeric(6,0),
+    Gpf_ay                         numeric(2,0),
+    Valor01_gpf                    numeric(16,2),
+    Valor02_gpf                    numeric(16,2),
+    Valor03_gpf                    numeric(16,2),
+    Valor04_gpf                    numeric(16,2),
+    Valor05_gpf                    numeric(16,2),
+    Valor06_gpf                    numeric(16,2),
+    Valor07_gpf                    numeric(16,2),
+    Valor08_gpf                    numeric(16,2),
+    Valor09_gpf                    numeric(16,2),
+    Valor10_gpf                    numeric(16,2),
+    Valor11_gpf                    numeric(16,2),
+    Valor12_gpf                    numeric(16,2),
+    Valor13_gpf                    numeric(16,2),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Prazo_entr                     numeric(3,0),
+    Garantia                       varchar(50),
+    Exam_quali                     varchar(1) DEFAULT 'N',
+    Observacao                     varchar(2000),
+    Motivo_indeferimento           varchar(2000),
+	ID_Projetos                    bigint,
+	ID_Natdesp                     bigint,
+	ID_GpfAy                       bigint,
+	ID_Dotacoes                    bigint,
+	ID_EventosAy                   bigint,
+	ID_CentroCustoJanus            bigint,
+	ID_AtividadeJanus			   bigint,
+	ID_ContratoJanus			   bigint
+	CONSTRAINT SM_pedidos_pk PRIMARY KEY  CLUSTERED  (ID_Pedidos)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Pedidos ADD CONSTRAINT Ix_SM_Pedidos_u UNIQUE(Gcompra_Numero,Ano,NumPed)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD CONSTRAINT SM_Pedidos_fk FOREIGN KEY(Ano)
+REFERENCES SM_AnoCompra (Ano)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD CONSTRAINT SM_Pedidos_fk_1 FOREIGN KEY(ID_Projetos)
+REFERENCES SM_Projetos (ID_Projetos)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD CONSTRAINT SM_Pedidos_fk_2 FOREIGN KEY(ID_Natdesp)
+REFERENCES SM_Natdesp (ID_Natdesp)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD CONSTRAINT SM_Pedidos_fk_3 FOREIGN KEY(Natdesp_Exec, Ano)
+REFERENCES SM_Natdesp (Numero,Ano)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD CONSTRAINT SM_Pedidos_fk_4 FOREIGN KEY(ID_GpfAy)
+REFERENCES SM_Gpf_Ay (ID_GpfAy)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD CONSTRAINT SM_Pedidos_fk_5 FOREIGN KEY(ID_EventosAy)
+REFERENCES SM_Eventos_Ay (ID_EventosAy)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD CONSTRAINT SM_Pedidos_fk_6 FOREIGN KEY(ID_Dotacoes)
+REFERENCES SM_Dotacoes (ID_Dotacoes)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD CONSTRAINT SM_Pedidos_fk_7 FOREIGN KEY(Gcompra_Numero)
+REFERENCES SM_GestorCompras (Numero)
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD  CONSTRAINT ck_Tipo_Entrega CHECK  (Tipo_Entrega='A' OR Tipo_Entrega='S' OR Tipo_Entrega='L')
+GO
+
+ALTER TABLE SM_Pedidos WITH CHECK ADD  CONSTRAINT ck_Flg_Servico CHECK  (Flg_Servico='N' OR Flg_Servico='S')
+GO
+
+alter table SM_Pedidos add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Pedidos_TimeStamp ON SM_Pedidos(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Pedidos_ClienteCloud ON SM_Pedidos(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Pedidos_Empresa ON SM_Pedidos (ID_Empresa)
+GO
+

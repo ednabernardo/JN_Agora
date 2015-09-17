@@ -1,0 +1,17 @@
+CREATE TABLE SM_ModEmpenho_Ay(
+      Modemp                         VARCHAR(10) NOT NULL,
+	  CONSTRAINT SM_ModEmpenho_Ay_Pk PRIMARY KEY  CLUSTERED  (Modemp) ON [PRIMARY])
+GO	
+
+alter table SM_ModEmpenho_Ay add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_ModEmpenho_Ay_TimeStamp ON SM_ModEmpenho_Ay(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_ModEmpenho_Ay_ClienteCloud ON SM_ModEmpenho_Ay(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_ModEmpenho_Ay_Empresa ON SM_ModEmpenho_Ay (ID_Empresa)
+GO
+

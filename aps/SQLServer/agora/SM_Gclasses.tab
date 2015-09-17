@@ -1,0 +1,37 @@
+CREATE TABLE SM_Gclasses (
+    ID_Gclasses                     bigint identity (1,1) NOT NULL,
+	Item_classe			           bigint NOT NULL,
+    Grupo_classe                   numeric (2,0) NOT NULL,
+    Nome                           varchar (100) NOT NULL,
+    Flex_campo_01                  varchar (2000),
+    Flex_campo_02                  varchar (2000),
+    Flex_campo_03                  varchar (2000),
+    Flex_campo_04                  varchar (2000),
+    Flex_campo_05                  varchar (2000),
+    Flex_campo_06                  varchar (2000),
+    Flex_campo_07                  varchar (2000),
+    Flex_campo_08                  varchar (2000),
+    Flex_campo_09                  varchar (2000),
+    Flex_campo_10                  varchar (2000),
+	CONSTRAINT SM_Gclasses_pk PRIMARY KEY  CLUSTERED  (ID_Gclasses)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Gclasses ADD CONSTRAINT Ix_SM_Gclasses UNIQUE(Grupo_Classe,Item_classe)
+GO
+
+ALTER TABLE SM_Gclasses WITH CHECK ADD CONSTRAINT SM_gclasses_fk FOREIGN KEY(Item_Classe)
+REFERENCES SM_Iclasses (Item_Classe)
+GO
+
+alter table SM_Gclasses add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Gclasses_TimeStamp ON SM_Gclasses(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Gclasses_ClienteCloud ON SM_Gclasses(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Gclasses_Empresa ON SM_Gclasses (ID_Empresa)
+GO
+

@@ -1,0 +1,69 @@
+CREATE TABLE SM_ItensCompra(
+    ID_ItensCompra                 bigint identity (1,1) NOT NULL,
+	Gcompra_numero                 bigint NOT NULL,
+    Numcompr                       numeric(10,0) NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Itemcompra                     numeric(4,0) NOT NULL,
+    Flg_servico                    varchar(1) NOT NULL,
+    Unidade                        varchar(15),
+    Fam_classe				       numeric(3,0),
+    Grupo_classe				   numeric(2,0),
+    Item_classe					   bigint ,
+    Itemid                         numeric(13,0),
+    Quant                          numeric,
+    Descr                          varchar(2000),
+    Preco_est                      numeric,
+    Item_mat                       numeric(7,0),
+    Preco_max                      numeric(16,2),
+    SM_pais                        numeric(2,0),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	ID_Compras                     bigint,
+	ID_Itens                       bigint,
+	ID_Fclasses                    bigint,
+	CONSTRAINT SM_ItensCompra_pk PRIMARY KEY  CLUSTERED  (ID_ItensCompra)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_ItensCompra ADD CONSTRAINT Ix_SM_ItensCompr_u UNIQUE(Ano, Gcompra_Numero, NumCompr, ItemCompra)
+GO
+
+ALTER TABLE SM_ItensCompra WITH CHECK ADD CONSTRAINT SM_ItensCompra_fk FOREIGN KEY(ID_Compras)
+REFERENCES SM_Compras (ID_Compras)
+GO
+
+ALTER TABLE SM_ItensCompra WITH CHECK ADD CONSTRAINT SM_ItensCompra_fk_1 FOREIGN KEY(Unidade)
+REFERENCES SM_Unidmed (Unidade)
+GO
+
+ALTER TABLE SM_ItensCompra WITH CHECK ADD CONSTRAINT SM_itenscompra_fk_2 FOREIGN KEY(ID_Itens)
+REFERENCES SM_Itens (ID_Itens)
+GO
+
+ALTER TABLE SM_ItensCompra WITH CHECK ADD CONSTRAINT SM_ItensCompra_fk_3 FOREIGN KEY(ID_Fclasses)
+REFERENCES SM_fclasses  (ID_Fclasses)
+GO
+
+ALTER TABLE SM_ItensCompra WITH CHECK ADD  CONSTRAINT ck_Icompras_Flg_Servico CHECK  (Flg_Servico='N' OR Flg_Servico='S')
+GO
+
+alter table SM_ItensCompra add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_ItensCompra_TimeStamp ON SM_ItensCompra(TimeStamp)
+GO
+
+
+CREATE INDEX IX_SM_ItensCompra_ClienteCloud ON SM_ItensCompra(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_ItensCompra_Empresa ON SM_ItensCompra (ID_Empresa)
+GO
+

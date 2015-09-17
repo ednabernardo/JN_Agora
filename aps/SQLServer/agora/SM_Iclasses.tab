@@ -1,0 +1,27 @@
+CREATE TABLE SM_Iclasses(
+    Item_Classe                    bigint identity (1,1) NOT NULL,
+    Nome                           varchar (50) NOT NULL,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	CONSTRAINT SM_Iclasse_pk PRIMARY KEY  CLUSTERED  (Item_Classe)  ON [PRIMARY])
+GO
+
+alter table SM_Iclasses add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_Iclasses_TimeStamp ON SM_Iclasses(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Iclasses_ClienteCloud ON SM_Iclasses(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Iclasses_Empresa ON SM_Iclasses (ID_Empresa)
+GO

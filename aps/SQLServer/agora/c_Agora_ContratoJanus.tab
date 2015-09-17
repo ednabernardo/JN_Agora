@@ -1,0 +1,9 @@
+CREATE TABLE c_Agora_ContratoJanus
+  (
+    ID_Contrato        bigint identity (1,1) NOT NULL,
+    Identificador      varchar(50) NOT NULL,
+    Descricao          varchar(100),
+    ID_CentroCustoNovo numeric(10,0),
+	CONSTRAINT c_Agora_ContratoJanus_pk PRIMARY KEY (ID_Contrato)  ON [PRIMARY])
+GO
+

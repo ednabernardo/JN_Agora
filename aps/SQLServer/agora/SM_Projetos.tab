@@ -1,0 +1,44 @@
+CREATE TABLE SM_Projetos(
+    ID_Projetos                    bigint identity (1,1) NOT NULL,
+    Cod                            varchar(15) NOT NULL,
+    Nome                           varchar(60) NOT NULL,
+    Flg_inativo                    varchar(1) NOT NULL,
+    Flg_transfere                  varchar(1) DEFAULT 'N',
+    Ano                            numeric(4,0) NOT NULL,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	CONSTRAINT SM_Projetos_pk PRIMARY KEY  CLUSTERED  (ID_Projetos)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Projetos ADD CONSTRAINT IX_SM_Projetos_U UNIQUE(Cod, Ano)
+GO
+
+ALTER TABLE SM_Projetos WITH CHECK ADD CONSTRAINT SM_Projetos_fk FOREIGN KEY(ano)
+REFERENCES SM_AnoCompra (ano)
+GO
+
+ALTER TABLE SM_Projetos  WITH CHECK ADD  CONSTRAINT Ck_Flg_Transfere CHECK  ((Flg_Transfere='N' OR Flg_Transfere='S'))
+GO
+
+ALTER TABLE SM_Projetos  WITH CHECK ADD  CONSTRAINT Ck_Flg_Inativo CHECK  ((Flg_Inativo='N' OR Flg_Inativo='S'))
+GO
+
+alter table SM_Projetos add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Projetos_TimeStamp ON SM_Projetos(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Projetos_ClienteCloud ON SM_Projetos(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Projetos_Empresa ON SM_Projetos (ID_Empresa)
+GO

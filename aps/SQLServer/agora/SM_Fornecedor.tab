@@ -1,0 +1,89 @@
+CREATE TABLE SM_Fornecedor(
+    Numfornec                      bigint identity (1,1) NOT NULL, 
+    Cgc                            varchar(14) NOT NULL,
+    Nome                           varchar(100) NOT NULL,
+    Atuareg                        varchar(1) NOT NULL,
+    Ativo                          varchar(1) NOT NULL,
+    Sigla_forn                     varchar(50),
+    Inscrest                       varchar(15),
+    Inscrmunic                     varchar(15),
+    Inscrecon                      varchar(15),
+    Regprofis                      varchar(15),
+    Situacao                       varchar(10),
+    Crc                            numeric(10,0),
+    Validcrc                       datetime,
+    Capital                        numeric(16,2),
+    Obs                            varchar(600),
+    Patrimliq                      numeric(16,2),
+    Contrsocial                    varchar(15),
+    Datacontr                      datetime,
+    Num_origem                     numeric(10,0),
+    Tipo_end                       varchar(10),
+    Rua                            varchar(60),
+    Num_end                        varchar(6),
+    Compl_end                      varchar(30),
+    Cep                            numeric(8,0),
+    Num_ddd                        varchar(4),
+    Num_tel                        varchar(15),
+    Num_fax                        varchar(15),
+    Imp_crc                        numeric(8,0),
+    Emissaocrc                     datetime,
+    Mbairro_codigo                 varchar(50),
+    Mbairro_municipio_codigo       varchar(12),
+    Flg_qualidade                  varchar(1),
+    End_mail                       varchar(100),
+    Senha                          varchar(50),
+    End_web                        varchar(100),
+    End_ip                         varchar(30),
+    Usuario_aut                    varchar(15),
+    Data_aut                       datetime,
+    Flg_email                      varchar(1) DEFAULT 'N',
+    Caixa_postal                   varchar(20),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Cel_num                        varchar(15),
+    Tipo_cadastro                  varchar(1),
+    Flg_proprietario               varchar(1),
+	CONSTRAINT SM_Fornecedor_pk PRIMARY KEY  CLUSTERED  (NumFornec)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Fornecedor ADD CONSTRAINT Ix_SM_Fornecedor_u UNIQUE(cgc)
+GO
+
+ALTER TABLE SM_Fornecedor WITH CHECK ADD  CONSTRAINT ck_Flg_Qualidade CHECK  ((Flg_Qualidade='N' OR [Flg_Qualidade]='S'))
+GO
+
+ALTER TABLE SM_Fornecedor WITH CHECK ADD  CONSTRAINT ck_Situacao CHECK  ((Situacao='SUSPENSO' OR Situacao='CANCELADO' OR 
+Situacao='ADVERTIDO' OR Situacao='REGULAR' OR Situacao='IRREGULAR'))
+GO
+
+ALTER TABLE SM_Fornecedor WITH CHECK ADD  CONSTRAINT ck_Ativo CHECK  ((Ativo='N' OR Ativo='S'))
+GO
+
+ALTER TABLE SM_Fornecedor WITH CHECK ADD  CONSTRAINT ck_AtuaReg CHECK  ((AtuaReg='N' OR AtuaReg='S'))
+GO
+
+ALTER TABLE SM_Fornecedor WITH CHECK ADD  CONSTRAINT ck_Flg_Email CHECK  ((Flg_Email='N' OR Flg_Email='S'))
+GO
+
+alter table SM_Fornecedor add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Fornecedor_TimeStamp ON SM_Fornecedor(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Fornecedor_ClienteCloud ON SM_Fornecedor(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Fornecedor_Empresa ON SM_Fornecedor (ID_Empresa)
+GO
+
+

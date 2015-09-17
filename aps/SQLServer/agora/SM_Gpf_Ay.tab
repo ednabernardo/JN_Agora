@@ -1,0 +1,27 @@
+CREATE TABLE SM_Gpf_Ay(
+    ID_GpfAy                       bigint identity (1,1) NOT NULL,
+	Ano                            numeric (4,0) NOT NULL,
+    Gpf                            numeric (2,0) ,
+    Nome                           varchar (50),
+	CONSTRAINT SM_gpf_ay_pk PRIMARY KEY  CLUSTERED  (ID_GpfAy)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Gpf_Ay ADD CONSTRAINT Ix_SM_Gpf_Ay_u UNIQUE(Ano, Gpf)
+GO
+
+ALTER TABLE SM_Gpf_Ay WITH CHECK ADD CONSTRAINT SM_Gpf_Ay_fk FOREIGN KEY(Ano)
+REFERENCES SM_AnoCompra (Ano)
+GO
+
+alter table SM_Gpf_Ay add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_Gpf_Ay_TimeStamp ON SM_Gpf_Ay(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Gpf_Ay_ClienteCloud ON SM_Gpf_Ay(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Gpf_Ay_Empresa ON SM_Gpf_Ay (ID_Empresa)
+GO
+

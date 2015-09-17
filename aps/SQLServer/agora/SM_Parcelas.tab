@@ -1,0 +1,81 @@
+CREATE TABLE SM_Parcelas(
+    ID_Parcelas                     bigint identity (1,1) NOT NULL, 
+	NumOfor                        numeric(10,0) NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Gcompra_numero                 bigint NOT NULL,
+    Numpar                         numeric(4,0) NOT NULL,
+    Data_prev                      datetime,
+    Data_entr                      datetime,
+    Local_entrega                  varchar(150),
+    Notafiscal                     varchar(15),
+    Flg_cancel                     varchar(1) DEFAULT 'N',
+    Flg_entrega_ok                 varchar(1),
+    Valor                          numeric(16,2),
+    Empenho                        varchar(20),
+    Tipo_entrega                   varchar(240),
+    Almox                          bigint,
+    Setor                          varchar(15),
+    Empresa                        numeric(2,0),
+    Local                          varchar(15),
+    Usuario                        varchar(15),
+    Entrega                        varchar(15),
+    Num_ent                        numeric(10,0),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Flg_desdobrada                 varchar(1),
+    Parcela_orig                   numeric,
+	ID_OrdemFornec                 bigint,
+	ID_Entradas                    bigint,
+	ID_parcelasOrig                bigint
+	CONSTRAINT SM_Parcelas_pk PRIMARY KEY  CLUSTERED  (ID_Parcelas)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Parcelas ADD CONSTRAINT Ix_SM_Parcelas_u UNIQUE(NumOfor, Ano, Gcompra_Numero, NumPar)
+GO
+
+ALTER TABLE SM_Parcelas WITH CHECK ADD CONSTRAINT SM_Parcelas_fk FOREIGN KEY(Almox)
+REFERENCES SM_Almoxarifados (Numero)
+GO
+
+ALTER TABLE SM_Parcelas WITH CHECK ADD CONSTRAINT SM_Parcelas_fk_2 FOREIGN KEY(ID_OrdemFornec)
+REFERENCES SM_OrdemFornec (ID_OrdemFornec)
+GO
+
+ALTER TABLE SM_Parcelas WITH CHECK ADD CONSTRAINT SM_Parcelas_fk_3 FOREIGN KEY(local)
+REFERENCES SM_Locais_Entregas (local)
+GO
+
+ALTER TABLE SM_Parcelas WITH CHECK ADD  CONSTRAINT ck_Parcela_Tipo_Entrega CHECK  (Tipo_Entrega='L' OR Tipo_Entrega='S')
+GO
+
+ALTER TABLE SM_Parcelas WITH CHECK ADD  CONSTRAINT ck_Parcela_Flg_Entrega_ok CHECK  (Flg_Entrega_ok='S' OR Flg_Entrega_ok='N')
+GO
+
+ALTER TABLE SM_Parcelas WITH CHECK ADD CONSTRAINT SM_Parcelas_fk_1 FOREIGN KEY(ID_Entradas)
+REFERENCES SM_Entradas (ID_Entradas)
+GO
+
+alter table SM_Parcelas add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_Parcelas_TimeStamp ON SM_Parcelas(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Parcelas_ClienteCloud ON SM_Parcelas(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Parcelas_Empresa ON SM_Parcelas (ID_Empresa)
+GO
+
+ALTER TABLE sm_parcelas WITH CHECK ADD CONSTRAINT sm_parcelas_fk_2 FOREIGN KEY(num_ent, almox)
+REFERENCES sm_entradas (num_ent,almox)
+GO
+

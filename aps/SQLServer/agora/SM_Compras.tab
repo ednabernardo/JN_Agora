@@ -1,0 +1,76 @@
+CREATE TABLE SM_Compras(
+    ID_Compras                      bigint identity (1,1) NOT NULL,
+	Ano_ano                        numeric(4,0) NOT NULL,
+    Gcompra_numero                 bigint NOT NULL,
+    Numcompr                       numeric(10,0) NOT NULL,
+    Flg_fechado                    varchar(1) NOT NULL,
+    Modalidade                     varchar(15),
+    Objeto                         varchar(150),
+    Preco_est                      numeric(16,2),
+    Nat_desp                       numeric(12,0),
+    Numproc                        varchar(25),
+    Abertura                       datetime,
+    Homologacao                    datetime,
+    Publicacao                     datetime,
+    Preco_edital                   numeric(16,2),
+    Flg_internet                   varchar(1) DEFAULT 'N',
+    Encerramento                   datetime,
+    Cadastro                       datetime,
+    Tipo_prop                      varchar(6) DEFAULT 'PADRÃO' NOT NULL,
+    Flg_preco                      varchar(1) DEFAULT 'N',
+    Flg_enviar_email               varchar(1) DEFAULT 'N',
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	CONSTRAINT SM_Compras_pk PRIMARY KEY  CLUSTERED  (ID_Compras)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Compras ADD CONSTRAINT IX_SM_Compras_u UNIQUE(Ano_ano, Gcompra_numero, NumCompr)
+GO
+
+ALTER TABLE SM_Compras WITH CHECK ADD CONSTRAINT SM_Compras_Fk FOREIGN KEY(Ano_Ano)
+REFERENCES SM_AnoCompra (Ano)
+GO
+
+ALTER TABLE SM_Compras WITH CHECK ADD CONSTRAINT SM_Compras_fk_2 FOREIGN KEY(Gcompra_Numero)
+REFERENCES SM_GestorCompras (Numero)
+GO
+
+
+ALTER TABLE SM_Compras WITH CHECK ADD  CONSTRAINT ck_Compras_Flg_Internet CHECK  (Flg_Internet='N' OR Flg_Internet='S')
+GO
+
+ALTER TABLE SM_Compras WITH CHECK ADD  CONSTRAINT ck_Flg_Fechado CHECK  (Flg_Fechado='N' OR Flg_Fechado='S')
+GO
+
+ALTER TABLE SM_Compras WITH CHECK ADD  CONSTRAINT ck_Tipo_Prop CHECK  (Tipo_Prop='PADRÃO' OR Tipo_Prop='LEILÃO')
+GO
+
+ALTER TABLE SM_Compras WITH CHECK ADD  CONSTRAINT ck_Flg_Preco CHECK  (Flg_Preco='S' OR Flg_Preco='N')
+GO
+
+ALTER TABLE SM_Compras WITH CHECK ADD  CONSTRAINT ck_Flg_Enviar_Email CHECK  (Flg_Enviar_Email='S' OR Flg_Enviar_Email='N')
+GO
+
+ALTER TABLE SM_Compras WITH CHECK ADD  CONSTRAINT ck_Flg_Internet CHECK  (Flg_Internet='S' OR Flg_Internet='N')
+GO
+
+alter table SM_Compras add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Compras_TimeStamp ON SM_Compras(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Compras_ClienteCloud ON SM_Compras(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Compras_Empresa ON SM_Compras (ID_Empresa)
+GO
+

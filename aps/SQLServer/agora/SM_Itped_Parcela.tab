@@ -1,0 +1,54 @@
+CREATE TABLE SM_Itped_Parcela(
+    ID_ItpedParcela                bigint identity (1,1) NOT NULL,
+	NumOfor                        numeric(10,0) NOT NULL,
+    NumPed                         numeric(10,0) NOT NULL,
+    NumPar                         numeric(4,0) NOT NULL,
+    Ano_Ofor                       numeric(4,0) NOT NULL,
+    ItemOfor                       numeric(4,0) NOT NULL,
+    Ano_Ped                        numeric(4,0) NOT NULL,
+    ItemPed                        numeric(4,0) NOT NULL,
+    Gcompra_Numero                 bigint NOT NULL,
+    Quant                          numeric NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	ID_ItensPedido                 bigint,
+	ID_ItensParcela                bigint,
+	ID_Parcelas                    bigint,
+	ID_OrdemFornec                 bigint,
+	ID_ItensOfor                   bigint,
+	CONSTRAINT SM_Itped_Parcela_pk PRIMARY KEY  CLUSTERED  (ID_ItpedParcela)  ON [PRIMARY])
+GO
+
+
+
+ALTER TABLE SM_Itped_Parcela ADD CONSTRAINT Ix_SM_Itped_Parcela_u UNIQUE(NumPar, NumOfor, Ano_Ofor, Gcompra_Numero,ItemPed, NumPed, Ano_Ped, ItemOfor)
+GO
+
+ALTER TABLE SM_ItPed_Parcela WITH CHECK ADD CONSTRAINT SM_ItPed_Parcela_fk FOREIGN KEY(ID_ItensPedido)
+REFERENCES SM_ItensPedido (ID_ItensPedido)
+GO
+
+ALTER TABLE SM_Itped_Parcela WITH CHECK ADD CONSTRAINT SM_ItPed_Parcela_fk_1 FOREIGN KEY(ID_ItensParcela)
+REFERENCES SM_ItensParcela (ID_ItensParcela)
+GO
+
+alter table SM_Itped_Parcela add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_Itped_Parcela_TimeStamp ON SM_Itped_Parcela(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Itped_Parcela_ClienteCloud ON SM_Itped_Parcela(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Itped_Parcela_Empresa ON SM_Itped_Parcela (ID_Empresa)
+GO
+

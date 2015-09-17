@@ -1,0 +1,49 @@
+CREATE TABLE SM_ItensParcela(
+    ID_ItensParcela                bigint identity (1,1) NOT NULL,
+	NumPar                         numeric(4,0) NOT NULL,
+    ItemOfor                       numeric(4,0) NOT NULL,
+    NumOfor                        numeric(10,0) NOT NULL,
+    Gcompra_Numero                 bigint NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Quant                          numeric NOT NULL,
+    Valor                          numeric,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Flg_Desdobrada                 varchar(1),
+	ID_Parcelas                    bigint,
+	ID_ItensOfor                   bigint,
+	ID_Ordemfornec                 bigint,
+	CONSTRAINT SM_ItensParcela_pk PRIMARY KEY  CLUSTERED  (ID_ItensParcela)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_ItensParcela ADD CONSTRAINT Ix_SM_ItensParcela_u UNIQUE(NumOfor, ItemOfor, Numpar, Ano, Gcompra_Numero)
+GO
+
+ALTER TABLE SM_ItensParcela WITH CHECK ADD CONSTRAINT SM_ItensParcela_fk FOREIGN KEY(ID_Parcelas)
+REFERENCES SM_Parcelas (ID_Parcelas)
+GO
+
+ALTER TABLE SM_ItensParcela WITH CHECK ADD CONSTRAINT SM_ItensParcela_fk_1 FOREIGN KEY(ID_ItensOfor)
+REFERENCES SM_ItensOfor (ID_ItensOfor)
+GO
+
+alter table SM_ItensParcela add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_ItensParcela_TimeStamp ON SM_ItensParcela(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_ItensParcela_ClienteCloud ON SM_ItensParcela(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_ItensParcela_Empresa ON SM_ItensParcela (ID_Empresa)
+GO
+

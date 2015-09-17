@@ -1,0 +1,119 @@
+CREATE TABLE SM_Almoxarifados(
+    Numero                         bigint identity (1,1) NOT NULL,
+    Nome                           varchar(50) NOT NULL,
+    Fechado                        varchar(1) DEFAULT 'N' NOT NULL,
+    Perm_consol                    varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_veestoque                  varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_gerarm                     varchar(1) NOT NULL,
+    Flg_msgrestr_almox             varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_msgrestr_proj              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_msgrestr_cota              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_msgrestr_lote              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_msgrestr_apre              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_msgrestr_aplo              varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_ccprefer                   varchar(1) DEFAULT 'N',
+    Dotacao_pref                   numeric(12,0),
+    Projeto                        varchar(15),
+    Almox_numero                   bigint,
+    Responsavel                    varchar(50),
+    Nome_end                       varchar(50),
+    Tipo_end                       varchar(10),
+    Num_end                        numeric(6,0),
+    Compl_end                      varchar(20),
+    Cep_end                        numeric(8,0),
+    Lastnum_e                      numeric(10,0),
+    Lastnum_s                      numeric(10,0),
+    Lastnum_es                     numeric(10,0),
+    Lastnum_ee                     numeric(10,0),
+    Flg_inibeqtd                   varchar(1),
+    Mbairro_municipio_codigo       varchar(12),
+    Mbairro_codigo                 varchar(12),
+    Ano                            numeric(4,0),
+    Flg_ccpcota                    varchar(1) DEFAULT 'N',
+    Flg_impguiadist                varchar(1) DEFAULT 'S' NOT NULL,
+    Diaini_req                     numeric(2,0),
+    Diafim_req                     numeric(2,0),
+    Diaini_con                     numeric(2,0),
+    Diafim_con                     numeric(2,0),
+    Flg_guiapadrao                 varchar(1),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Flg_apresfechada               varchar(1) DEFAULT 'S',
+    Flg_req_sem_est                CHAR(1),
+    Flg_mat_cota                   CHAR(1),
+    Chk_empenho_ay                 varchar(1) DEFAULT 'N' NOT NULL,
+	ID_Projetos                    bigint,
+	CONSTRAINT SM_almoxarifados_pk PRIMARY KEY  CLUSTERED  (numero)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD CONSTRAINT SM_Almoxarifados_fk FOREIGN KEY(Almox_Numero)
+REFERENCES SM_Almoxarifados (Numero)
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD CONSTRAINT SM_almoxarifados_fk_1 FOREIGN KEY(ID_Projetos)
+REFERENCES SM_Projetos (ID_Projetos)
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_GuiaPadrao CHECK  (Flg_GuiaPadrao='N' OR Flg_GuiaPadrao='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_ImpGuiaDist CHECK  (Flg_ImpGuiaDist='N' OR Flg_ImpGuiaDist='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_CcpCota CHECK  (Flg_CcpCota='N' OR Flg_CcpCota='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_VeEstoque CHECK  (Flg_VeEstoque='N' OR Flg_VeEstoque='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_Gerarm CHECK  (Flg_gerarm='N' OR Flg_Gerarm='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_MsgrEstr_Almox CHECK  (Flg_MsgrEstr_Almox='N' OR Flg_MsgrEstr_Almox='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_MsgrEstr_Proj CHECK  (Flg_Msgrestr_Proj='N' OR Flg_MsgrEstr_Proj='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_MsgrEstr_Cota CHECK  (Flg_MsgrEstr_Cota='N' OR Flg_MsgrEstr_Cota='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_MsgrEstr_Lote CHECK  (Flg_MsgrEstr_Lote='N' OR Flg_MsgrEstr_Lote='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_MsgrEstr_Apre CHECK  (Flg_MsgrEstr_Apre='N' OR Flg_MsgrEstr_Apre='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_MsgrEstr_Aplo CHECK  (Flg_MsgrEstr_Aplo='N' OR Flg_MsgrEstr_Aplo='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Flg_CcPrefer CHECK  (Flg_CcPrefer='N' OR Flg_CcPrefer='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Fechado CHECK  (Fechado='N' OR Fechado='S')
+GO
+
+ALTER TABLE SM_Almoxarifados WITH CHECK ADD  CONSTRAINT ck_Perm_Consol CHECK  (Perm_Consol='N' OR Perm_Consol='S')
+GO
+
+alter table SM_Almoxarifados add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_Almoxarifados_TimeStamp ON SM_Almoxarifados(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Almoxarifados_ClienteCloud ON SM_Almoxarifados(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Almoxarifados_Empresa ON SM_Almoxarifados (ID_Empresa)
+GO
+
+

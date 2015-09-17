@@ -1,0 +1,53 @@
+--Tarefa 79033 - 14/05/2013 - Edna - 4.29
+CREATE VIEW AGOADM00010_SM_ITENS
+AS
+  SELECT a.ITEMID ,
+    a.SM_FCLASSE_SM_GCLASSE_SM_ICLAS ,
+    a.SM_FCLASSE_SM_GCLASSE_GRUPO_CL ,
+    a.SM_FCLASSE_FAM_CLASSE ,
+    a.ITEM ,
+    a.NOME ,
+    a.SM_UNIDMED_UNIDADE ,
+    a.FLG_LOTE ,
+    a.ESPECIF ,
+    a.TIPO_PATR ,
+    a.VIDAUFIS ,
+    a.NUM_ANTIGO ,
+    a.FLG_FRACAO ,
+    a.FLG_DECIMAL ,
+    a.FLG_DESUSO ,
+    a.SM_PAIS ,
+    a.FLEX_CAMPO_01 ,
+    a.FLEX_CAMPO_02 ,
+    a.FLEX_CAMPO_03 ,
+    a.FLEX_CAMPO_04 ,
+    a.FLEX_CAMPO_05 ,
+    a.FLEX_CAMPO_06 ,
+    a.FLEX_CAMPO_07 ,
+    a.FLEX_CAMPO_08 ,
+    a.FLEX_CAMPO_09 ,
+    a.FLEX_CAMPO_10 ,
+    a.COD_INC,
+    a.id AS rowid_reg,
+    g.NOME               AS NOMEGRUPO,
+    f.NOME               AS NOMEFAMILIA
+  FROM sm_itens a
+  INNER JOIN sm_gclasses g
+  ON a.SM_FCLASSE_SM_GCLASSE_SM_ICLAS  = g.SM_ICLASSE_ITEM_CLASSE
+  AND a.SM_FCLASSE_SM_GCLASSE_GRUPO_CL = g.GRUPO_CLASSE
+  INNER JOIN sm_fclasses f
+  ON a.SM_FCLASSE_SM_GCLASSE_SM_ICLAS  = f.SM_GCLASSE_SM_ICLASSE_ITEM_CLA
+  AND a.SM_FCLASSE_SM_GCLASSE_GRUPO_CL = f.SM_GCLASSE_GRUPO_CLASSE
+  AND a.SM_FCLASSE_FAM_CLASSE          = f.FAM_CLASSE
+/
+-- INI ---------------------------- HAD_FIXES ---------------------------------------------
+INSERT INTO HAD_FIX
+(IDENT,DESCRICAO,DATAALTERACAO,SIS,TIPOOBJ,OBJETO,VERSAO)
+VALUES
+('TAREFA79033','Criação de View no SQL Server',
+ TO_DATE('14/05/2013','DD/MM/YYYY'),'AGORA','VIEW','AGOADM00010_SM_ITENS','4.29')
+/
+COMMIT
+/
+-- FIM ---------------------------- HAD_FIXES ---------------------------------------------
+

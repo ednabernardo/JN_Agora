@@ -1,0 +1,54 @@
+CREATE TABLE SM_ItensEnt(
+    ID_ItensEnt                    bigint identity (1,1) NOT NULL,
+	Almox                          bigint NOT NULL,
+    Num_Ent                        numeric(10,0) NOT NULL,
+    ItemId                         numeric(13,0) NOT NULL,
+    Quant                          numeric NOT NULL,
+    Valor                          numeric NOT NULL,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Gcompra_Numero                 int,
+    NumOfor                        numeric(10,0),
+    AnoOfor                        numeric(4,0),
+    ItemOfor                       numeric(4,0),
+    NumPar                         numeric(4,0),
+	ID_MaterialAlmox               bigint,
+	ID_Entradas                    bigint,
+	ID_Parcelas                    bigint,
+	ID_ItensOfor                   bigint,
+	ID_ItensParcela                bigint,
+	ID_Itens                       bigint,
+	CONSTRAINT SM_ItensEnt_pk PRIMARY KEY  CLUSTERED  (ID_ItensEnt)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_ItensEnt ADD CONSTRAINT IX_SM_ItensEnt_u UNIQUE(Almox, Num_Ent, ItemId, id_entradas)
+GO
+	
+ALTER TABLE SM_ItensEnt WITH CHECK ADD CONSTRAINT SM_ItensEnt_fk FOREIGN KEY(ID_MaterialAlmox)
+REFERENCES SM_MaterialAlmox (ID_MaterialAlmox)
+GO
+
+ALTER TABLE SM_ItensEnt WITH CHECK ADD CONSTRAINT SM_ItensEnt_fk_1 FOREIGN KEY(ID_Entradas)
+REFERENCES SM_Entradas (ID_Entradas)
+GO
+
+alter table SM_ItensEnt add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_ItensEnt_TimeStamp ON SM_ItensEnt(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_ItensEnt_ClienteCloud ON SM_ItensEnt(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_ItensEnt_Empresa ON SM_ItensEnt (ID_Empresa)
+GO
+

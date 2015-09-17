@@ -1,0 +1,52 @@
+-- Tarefa 94202 - Edna - 22/06/2015 - v1.00
+-- Tarefa 79033 - Edna - 07/05/2013 - v1.00
+CREATE TABLE SM_AnoCompra(
+    Ano                            numeric (4,0) NOT NULL,
+    DataIni                        datetime ,
+    DataFim                        datetime ,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	CONSTRAINT SM_Anocompra_pk PRIMARY KEY  CLUSTERED  ( Ano )  ON [PRIMARY])
+GO
+
+alter table SM_AnoCompra add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_AnoCompra_TimeStamp ON SM_AnoCompra(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_AnoCompra_ClienteCloud ON SM_AnoCompra(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_AnoCompra_Empresa ON SM_AnoCompra (ID_Empresa)
+GO
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+	
+	

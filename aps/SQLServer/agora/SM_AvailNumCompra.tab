@@ -1,0 +1,45 @@
+CREATE TABLE SM_AvailNumCompra(
+    ID_AvailNumCompra              bigint identity (1,1) NOT NULL,
+	gcompra_numero                 bigint NOT NULL,
+    ano_ano                        numeric(4,0) NOT NULL,
+    lastnum_ped                    numeric(10,0),
+    lastnum_compra                 numeric(10,0),
+    lastnum_ofor                   numeric(10,0),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	CONSTRAINT SM_availnumcompra_pk PRIMARY KEY  CLUSTERED  (ID_AvailNumCompra)  ON [PRIMARY])
+GO	
+
+ALTER TABLE SM_AvailNumCompra ADD CONSTRAINT Ix_SM_AvailNumCompra_u UNIQUE(Gcompra_Numero,Ano_Ano)
+GO
+
+ALTER TABLE SM_AvailNumCompra WITH CHECK ADD CONSTRAINT SM_AvailNumCompra_fk FOREIGN KEY(Ano_Ano)
+REFERENCES SM_Anocompra (Ano)
+GO
+
+ALTER TABLE SM_AvailNumCompra WITH CHECK ADD CONSTRAINT SM_AvailNumCompra_fk_1 FOREIGN KEY(Gcompra_Numero)
+REFERENCES SM_GestorCompras (Numero)
+GO
+
+alter table SM_AvailNumCompra add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_AvailNumCompra_TimeStamp ON SM_AvailNumCompra(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_AvailNumCompra_ClienteCloud ON SM_AvailNumCompra(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_AvailNumCompra_Empresa ON SM_AvailNumCompra (ID_Empresa)
+GO
+
+
+

@@ -1,0 +1,9 @@
+-- Tarefa 79033 - Edna - 15/05/2013 - v4.29
+CREATE TABLE c_agora_contratojanus
+  (
+    ID_CONTRATO        int identity (1,1) NOT NULL,
+    IDENTIFICADOR      varchar(50) NOT NULL,
+    DESCRICAO          varchar(100),
+    ID_CENTROCUSTONOVO numeric(10,0),
+	CONSTRAINT c_agora_contratojanus_pk PRIMARY KEY (id_contrato)  ON [PRIMARY])
+GO  

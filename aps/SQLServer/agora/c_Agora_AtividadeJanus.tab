@@ -1,0 +1,7 @@
+CREATE TABLE c_Agora_AtividadeJanus(
+    ID_Atividade                   bigint identity (1,1) NOT NULL,
+    Atividade                      varchar(40) ,
+    Flg_Inativo                    varchar(1) DEFAULT 'N' NOT NULL,
+	CONSTRAINT c_Agora_AtividadeJanus_pk PRIMARY KEY  CLUSTERED  (ID_Atividade)  ON [PRIMARY])
+GO
+

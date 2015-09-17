@@ -1,0 +1,56 @@
+CREATE TABLE SM_Dotacoes (
+    ID_Dotacoes                    bigint identity (1,1) NOT NULL,
+	Seq_dot                        int,
+    Num_natdesp                    numeric(12,0) NOT NULL,
+    Num_unor                       varchar(8) NOT NULL,
+    Num_funcao                     numeric(2,0) NOT NULL,
+    Num_programa                   numeric(3,0) NOT NULL,
+    Num_subprog                    numeric(4,0) NOT NULL,
+    Num_projativ                   numeric(5,0) NOT NULL,
+    Num_fonte                      numeric(4,0) NOT NULL,
+    Flg_inativo                    varchar(1) DEFAULT 'N' NOT NULL,
+    Vlr_inicial                    numeric(16,2),
+    Vlr_atual                      numeric(16,2),
+    Ano                            numeric(4,0) NOT NULL,
+    Descricao                      varchar(50),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	ID_Natdesp                     bigint,
+	CONSTRAINT SM_Dotacoes_pk PRIMARY KEY  CLUSTERED  (ID_Dotacoes)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Dotacoes ADD CONSTRAINT IX_SM_Dotacoes_u UNIQUE(Seq_dot, Ano)
+GO
+
+ALTER TABLE SM_Dotacoes WITH CHECK ADD CONSTRAINT SM_Dotacoes_fk FOREIGN KEY(ID_Natdesp)
+REFERENCES SM_Natdesp (ID_Natdesp)
+GO
+
+ALTER TABLE SM_Dotacoes WITH CHECK ADD CONSTRAINT SM_Dotacoes_fk_1 FOREIGN KEY(Ano)
+REFERENCES SM_AnoCompra (Ano)
+GO
+
+ALTER TABLE SM_Dotacoes  WITH CHECK ADD  CONSTRAINT ck_Dotacoes_Inativo CHECK  (Flg_Inativo='N' OR Flg_Inativo='S')
+GO
+
+alter table SM_Dotacoes add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_Dotacoes_TimeStamp ON SM_Dotacoes(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Dotacoes_ClienteCloud ON SM_Dotacoes(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Dotacoes_Empresa ON SM_Dotacoes (ID_Empresa)
+GO
+
+

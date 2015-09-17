@@ -1,0 +1,88 @@
+CREATE TABLE SM_Entradas(
+    ID_Entradas                     bigint identity (1,1) NOT NULL,
+	Almox                          bigint NOT NULL,
+    Num_Ent                        numeric(10,0) NOT NULL,
+    Flg_consol                     varchar(1) NOT NULL,
+    Tipo                           varchar(15) NOT NULL,
+    Usu_Consol                     varchar(15),
+    Usuario                        varchar(15),
+    NumFornec                      bigint,
+    NumOfor                        numeric(10,0),
+    Ano                            numeric(4,0),
+    Gcompra_Numero                 bigint,
+    NumPar                         numeric(4,0),
+    Gest_Patr                      numeric(10,0),
+    Gespatr_Numero                 numeric(10,0),
+    Data_Consol                    datetime,
+    Data_Entrega                   datetime,
+    Empenho                        varchar(20),
+    NotaFiscal                     varchar(15),
+    Almox_Orig                     int,
+    Num_Sai_Orig                   numeric(10,0),
+    Ent_Empenho                    varchar(20),
+    NumProc                        varchar(25),
+    Num_Sai_Ger                    numeric(10,0),
+    Setor_Sai_Ger                  varchar(15),
+    Emp_SetorSai_Ger               numeric(2,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flg_patrim                     varchar(1),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    Class_Orc                      varchar(20),
+    Class_Ent                      varchar(15),
+    Tipo_Patr                      varchar(15),
+    AnoOfor                        numeric(4,0),
+    Almox_Ent_Orig                 bigint,
+    Ent_Orig                       numeric(10,0),
+    Flg_Finaliz                    varchar(1),
+    Data_Finaliz                   datetime,
+    Usu_Finaliz                    varchar(15),
+    Situacao_Ent                   varchar(30),
+    Usu_Sit_Ent                    varchar(30),
+	ID_Parcelas                    bigint,
+	CONSTRAINT SM_entradas_pk PRIMARY KEY  CLUSTERED  (ID_Entradas)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Entradas ADD CONSTRAINT Ix_SM_Entradas_u UNIQUE(Num_Ent, Almox)
+GO
+	
+ALTER TABLE SM_Entradas WITH CHECK ADD CONSTRAINT SM_Entradas_fk FOREIGN KEY(ID_Parcelas)
+REFERENCES SM_Parcelas (ID_Parcelas)
+GO
+
+ALTER TABLE SM_Entradas WITH CHECK ADD CONSTRAINT SM_Entradas_fk_1 FOREIGN KEY(Almox)
+REFERENCES SM_Almoxarifados (Numero)
+GO
+
+ALTER TABLE SM_Entradas WITH CHECK ADD CONSTRAINT SM_Entradas_fk_2 FOREIGN KEY(NumFornec)
+REFERENCES SM_Fornecedor (NumFornec)
+GO
+
+ALTER TABLE SM_Entradas WITH CHECK ADD  CONSTRAINT ck_Ent_Flg_Consol CHECK  (Flg_Consol='N' OR Flg_Consol='S')
+GO
+
+ALTER TABLE SM_Entradas WITH CHECK ADD  CONSTRAINT ck_Ent_FlgPatrim CHECK  (Flg_Patrim='N' OR Flg_Patrim='S')
+GO
+
+ALTER TABLE SM_Entradas WITH CHECK ADD  CONSTRAINT ck_Flg_Consol CHECK  (Flg_Consol='N' OR Flg_Consol='S')
+GO
+
+alter table SM_Entradas add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_Entradas_TimeStamp ON SM_Entradas(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Entradas_ClienteCloud ON SM_Entradas(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Entradas_Empresa ON SM_Entradas (ID_Empresa)
+GO
+

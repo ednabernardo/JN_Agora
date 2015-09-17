@@ -1,0 +1,50 @@
+CREATE TABLE SM_MaterialAlmox(
+    ID_MaterialAlmox               bigint identity (1,1) NOT NULL,
+    Almox                          bigint not null ,
+    Itemid                         numeric(13,0) NOT NULL,
+    Contabilizacao                 varchar(15) NOT NULL,
+    Contr_cota                     varchar(1) NOT NULL,
+    Local                          numeric(14,0),
+    Consumo                        numeric,
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+    ID_Localmat                    bigint,
+	ID_Itens                       bigint,
+	CONSTRAINT SM_MaterialAlmox_pk PRIMARY KEY  CLUSTERED  (ID_MaterialAlmox)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_MaterialAlmox ADD CONSTRAINT Ix_SM_MaterialAlmox_u UNIQUE(Almox, Itemid)
+GO
+	
+ALTER TABLE SM_MaterialAlmox WITH CHECK ADD CONSTRAINT SM_MaterialAlmox_fk FOREIGN KEY(Almox)
+REFERENCES SM_Almoxarifados (Numero)
+GO
+
+ALTER TABLE SM_MaterialAlmox WITH CHECK ADD CONSTRAINT SM_MaterialAlmox_fk_1 FOREIGN KEY(ID_LocalMat)
+REFERENCES SM_Local_Mat (ID_LocalMat)
+GO
+
+ALTER TABLE SM_MaterialAlmox WITH CHECK ADD CONSTRAINT SM_MaterialAlmox_fk_2 FOREIGN KEY(ID_Itens)
+REFERENCES SM_Itens (ID_Itens)
+GO
+
+alter table SM_MaterialAlmox add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_MaterialAlmox_TimeStamp ON SM_MaterialAlmox(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_MaterialAlmox_ClienteCloud ON SM_MaterialAlmox(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_MaterialAlmox_Empresa ON SM_MaterialAlmox (ID_Empresa)
+GO
+

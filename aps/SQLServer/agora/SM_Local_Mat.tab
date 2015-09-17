@@ -1,0 +1,40 @@
+CREATE TABLE SM_Local_Mat(
+    ID_LocalMat                    bigint identity (1,1) NOT NULL,
+	Num_Almox                      bigint NOT NULL,
+    Num_Local                      numeric(14,0) NOT NULL,
+    Desc_Local                     varchar(100),
+    Cod_Barras                     numeric(15,0),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	CONSTRAINT SM_Local_Mat_pk PRIMARY KEY  CLUSTERED  (ID_LocalMat)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Local_Mat ADD CONSTRAINT Ix_SM_Local_Mat_u UNIQUE(Num_Almox, Num_Local)
+GO
+
+ALTER TABLE SM_local_Mat ADD CONSTRAINT Ix_SM_Local_Mat_u_1 UNIQUE(Cod_Barras)
+GO
+
+ALTER TABLE SM_Local_Mat WITH CHECK ADD CONSTRAINT SM_Local_Mat_fk FOREIGN KEY(Num_Almox)
+REFERENCES SM_Almoxarifados (Numero)
+GO
+
+alter table SM_Local_Mat add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Local_Mat_TimeStamp ON SM_Local_Mat(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Local_Mat_ClienteCloud ON SM_Local_Mat(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Local_Mat_Empresa ON SM_Local_Mat (ID_Empresa)
+GO

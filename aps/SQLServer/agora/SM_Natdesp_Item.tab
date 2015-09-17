@@ -1,0 +1,35 @@
+CREATE TABLE SM_Natdesp_Item(
+	ID_NatDespItem                 bigint identity (1,1) NOT NULL,
+	Itemid                         numeric(13,0) NOT NULL,
+    Natdesp                        numeric(12,0) NOT NULL ,
+    Ano                            numeric(4,0) NOT NULL,
+	ID_Natdesp                     bigint,
+	ID_Itens                       bigint,
+	CONSTRAINT SM_Natdesp_Item_pk PRIMARY KEY  CLUSTERED  (ID_NatDespItem)  ON [PRIMARY])
+GO
+
+
+
+ALTER TABLE SM_Natdesp_Item ADD CONSTRAINT Ix_SM_Natdesp_Item_u UNIQUE(Natdesp,Ano,Itemid)
+GO
+
+ALTER TABLE SM_Natdesp_Item WITH CHECK ADD CONSTRAINT SM_Natdesp_Itens_fk FOREIGN KEY(ID_Itens)
+REFERENCES SM_Itens (ID_Itens)
+GO
+
+ALTER TABLE SM_Natdesp_Item WITH CHECK ADD CONSTRAINT SM_Natdesp_Natdesp_fk FOREIGN KEY(ID_Natdesp)
+REFERENCES SM_Natdesp (ID_Natdesp)
+GO
+
+alter table SM_Natdesp_Item add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Natdesp_Item_TimeStamp ON SM_Natdesp_Item(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Natdesp_Item_ClienteCloud ON SM_Natdesp_Item(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Natdesp_Item_Empresa ON SM_Natdesp_Item (ID_Empresa)
+GO
+

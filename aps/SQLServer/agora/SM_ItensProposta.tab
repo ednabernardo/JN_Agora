@@ -1,0 +1,56 @@
+CREATE TABLE SM_ItensProposta(
+    ID_ItensProposta               bigint identity (1,1) NOT NULL, 
+	NumFornec                      bigint NOT NULL,
+    ItemCompra                     numeric(4,0) NOT NULL,
+    Gcompra_Numero                 bigint NOT NULL,
+    NumCompr                       numeric(10,0) NOT NULL,
+    Ano                            numeric(4,0) NOT NULL,
+    Flg_Desclas                    varchar(1) NOT NULL,
+    Preco                          numeric,
+    Garantia                       varchar(50),
+    Classificacao                  numeric(4,0),
+    Descricao                      varchar(2000),
+    Quant                          numeric,
+    PrecoUnit                      numeric,
+    MarcaMod                       varchar(50),
+    Flex_Campo_01                  varchar(2000),
+    Flex_Campo_02                  varchar(2000),
+    Flex_Campo_03                  varchar(2000),
+    Flex_Campo_04                  varchar(2000),
+    Flex_Campo_05                  varchar(2000),
+    Flex_Campo_06                  varchar(2000),
+    Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	ID_ItensCompra                 bigint,
+	ID_Propostas                   bigint,
+	CONSTRAINT SM_ItensProposta_pk PRIMARY KEY  CLUSTERED  (ID_ItensProposta)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_ItensProposta ADD CONSTRAINT IX_SM_ItensProposta_u UNIQUE(NumFornec, Ano, ItemCompra, Gcompra_Numero,NumCompr)
+GO
+	
+ALTER TABLE SM_ItensProposta WITH CHECK ADD CONSTRAINT SM_ItensProposta_fk FOREIGN KEY(ID_ItensCompra)
+REFERENCES SM_ItensCompra (ID_ItensCompra)
+GO
+
+ALTER TABLE SM_ItensProposta WITH CHECK ADD CONSTRAINT SM_ItensProposta_fk_1 FOREIGN KEY(ID_Propostas)
+REFERENCES SM_propostas (ID_Propostas)
+GO
+
+ALTER TABLE SM_ItensProposta WITH CHECK ADD  CONSTRAINT ck_ItensProposta_Flg_Desclas CHECK  (Flg_desclas='N' OR Flg_desclas='S')
+GO
+
+alter table SM_ItensProposta add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL
+GO
+
+CREATE INDEX IX_SM_ItensProposta_TimeStamp ON SM_ItensProposta(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_ItensProposta_ClienteCloud ON SM_ItensProposta(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_ItensProposta_Empresa ON SM_ItensProposta (ID_Empresa)
+GO
+

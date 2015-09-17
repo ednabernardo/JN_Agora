@@ -1,0 +1,48 @@
+CREATE TABLE SM_Comentario (	
+    ID_Comentario 			int identity (1,1) NOT NULL, 
+	Data_Coment 			datetime NOT NULL,
+	Usuario					varchar(15) NOT NULL,
+	Comentario 				varchar(2000),
+	Tabela       			varchar(100),
+	Chave_01    			varchar(100),
+	Valor_01    			varchar(100),
+	Chave_02          	varchar(100),
+	Valor_02          	varchar(100),
+	Chave_03          	varchar(100),
+	Valor_03          	varchar(100),
+	Chave_04          	varchar(100),
+	Valor_04          	varchar(100),
+	Chave_05          	varchar(100),
+	Valor_05          	varchar(100),
+	Chave_06          	varchar(100),
+	Valor_06          	varchar(100),
+	Chave_07          	varchar(100),
+	Valor_07          	varchar(100),
+	Chave_08          	varchar(100),	
+	Valor_08          	varchar(100),
+	Flex_Campo_01 			varchar(2000),
+	Flex_Campo_02 			varchar(2000),
+	Flex_Campo_03 			varchar(2000),
+	Flex_Campo_04 			varchar(2000),
+	Flex_Campo_05 			varchar(2000),
+	Flex_Campo_06 			varchar(2000),
+	Flex_Campo_07                  varchar(2000),
+    Flex_Campo_08                  varchar(2000),
+    Flex_Campo_09                  varchar(2000),
+    Flex_Campo_10                  varchar(2000),
+	CONSTRAINT SM_Comentario_pk PRIMARY KEY  CLUSTERED  (ID_Comentario)  ON [PRIMARY])
+GO
+
+
+alter table SM_Comentario add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_Comentario_TimeStamp ON SM_Comentario(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Comentario_ClienteCloud ON SM_Comentario(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Comentario_Empresa ON SM_Comentario (ID_Empresa)
+GO
+

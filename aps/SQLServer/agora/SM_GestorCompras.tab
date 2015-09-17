@@ -1,0 +1,112 @@
+CREATE TABLE SM_GestorCompras (
+	Numero                         bigint identity (1,1) NOT NULL,
+    Pres_cpl                       varchar(50),
+    Membro1_cpl                    varchar(50),
+    Membro2_cpl                    varchar(50),
+    Membro3_cpl                    varchar(50),
+    Nome                           varchar(50),
+    Nome_end                       varchar(50),
+    Tipo_end                       varchar(10),
+    Num_end                        numeric(6,0),
+    Compl_end                      varchar(20),
+    Cep_end                        numeric(8,0),
+    Mbairro_codigo                 varchar(12),
+    Mbairro_municipio_codigo       varchar(12),
+    Autoriza                       varchar(1) DEFAULT 'N' NOT NULL,
+    Calc_auto                      varchar(1) DEFAULT 'N' NOT NULL,
+    Criterio                       varchar(15),
+    Nprecos                        numeric(6,0),
+    Tipo_calc                      varchar(15),
+    Imp_sem_empenho                varchar(1) DEFAULT 'N' NOT NULL,
+    Com_reserva                    varchar(1) DEFAULT 'N' NOT NULL,
+    Com_local                      varchar(1) DEFAULT 'N' NOT NULL,
+    Flg_usr_fazres                 varchar(1) DEFAULT 'N',
+    Flg_usr_autped                 varchar(1) DEFAULT 'N',
+    Emp_dotacao                    varchar(1) DEFAULT 'N' NOT NULL,
+    Emp_convenio                   varchar(1) DEFAULT 'N' NOT NULL,
+    Emp_local                      varchar(1) DEFAULT 'N' NOT NULL,
+    Chk_reserva_ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    Chk_empenho_ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    Ins_reserva_ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    Ins_empenho_ay                 varchar(1) DEFAULT 'N' NOT NULL,
+    Ins_corpoemp_ay                varchar(1) DEFAULT 'N' NOT NULL,
+    Emp_reserva                    varchar(1) DEFAULT 'N' NOT NULL,
+    Verifica_marcamod              varchar(1) DEFAULT 'N' NOT NULL,
+    Nmeses                         numeric(6,0),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+    Bcopreco_auto                  varchar(1) DEFAULT 'N',
+	CONSTRAINT SM_Gestorcompras_pk_1 PRIMARY KEY  CLUSTERED  (Numero)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Autoriza CHECK  (Autoriza='N' OR Autoriza='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Calc_Auto CHECK  (calc_Auto='N' OR calc_Auto='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Chk_Empenho_Ay CHECK  (chk_Empenho_Ay='N' OR chk_Empenho_Ay='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Chk_Reserva_Ay CHECK  (chk_Reserva_Ay='N' OR chk_Reserva_Ay='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Com_Local CHECK  (Com_Local='N' OR Com_Local='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Com_Reserva CHECK  (Com_Reserva='N' OR Com_Reserva='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Criterio CHECK  (Criterio='MAIOR' OR Criterio='MENOR' OR Criterio='MEDIA')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Emp_Local CHECK  (Emp_Local='N' OR Emp_Local='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Emp_Convenio CHECK  (Emp_Convenio='N' OR Emp_Convenio='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Emp_Dotacao CHECK  (Emp_Dotacao='N' OR Emp_Dotacao='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Emp_Reserva CHECK  (Emp_Reserva='N' OR Emp_Reserva='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Flg_Usr_AutPed CHECK  (Flg_Usr_AutPed='N' OR Flg_Usr_AutPed='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Flg_Usr_FazRes CHECK  (Flg_Usr_FazRes='N' OR Flg_Usr_FazRes='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Imp_Sem_Empenho CHECK  (Imp_Sem_Empenho='N' OR Imp_Sem_Empenho='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Ins_CorpoEmp_Ay CHECK  (Ins_CorpoEmp_Ay='N' OR Ins_CorpoEmp_Ay='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Ins_Empenho_Ay CHECK  (Ins_Empenho_Ay='N' OR Ins_Empenho_Ay='S')
+GO
+
+ALTER TABLE SM_GestorCompras WITH CHECK ADD  CONSTRAINT ck_Ins_Reserva_Ay CHECK  (Ins_Reserva_Ay='N' OR Ins_Reserva_Ay='S')
+GO
+
+alter table SM_GestorCompras add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL  
+GO
+
+CREATE INDEX IX_SM_GestorCompras_TimeStamp ON SM_GestorCompras(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_GestorCompras_ClienteCloud ON SM_GestorCompras(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_GestorCompras_Empresa ON SM_GestorCompras (ID_Empresa)
+GO
+

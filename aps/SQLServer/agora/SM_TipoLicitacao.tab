@@ -1,0 +1,38 @@
+CREATE TABLE SM_TipoLicitacao(
+    Modalidade                     varchar(15) NOT NULL,
+    Flg_periodo                    varchar(1) NOT NULL,
+    Descr                          varchar(150),
+    Limite                         numeric(16,2),
+    Periodo                        numeric(6,0),
+    Val_padrao                     numeric(4,0),
+    Flg_processo                   varchar(1),
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	CONSTRAINT SM_TipoLicitacao_pk PRIMARY KEY  CLUSTERED  (Modalidade)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_TipoLicitacao WITH CHECK ADD  CONSTRAINT ck_Flg_processo CHECK  ((Flg_Processo=' N' OR Flg_Processo='S'))
+GO
+
+ALTER TABLE SM_TipoLicitacao WITH CHECK ADD  CONSTRAINT ck_Flg_periodo CHECK  ((Flg_periodo='N' OR Flg_periodo='S'))
+GO
+
+alter table SM_TipoLicitacao add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_TipoLicitacao_TimeStamp ON SM_TipoLicitacao(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_TipoLicitacao_ClienteCloud ON SM_TipoLicitacao(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_TipoLicitacao_Empresa ON SM_TipoLicitacao (ID_Empresa)
+GO

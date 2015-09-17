@@ -1,0 +1,51 @@
+CREATE TABLE SM_Dotacao_Projeto(
+    ID_DotacaoProjeto              bigint identity (1,1) NOT NULL,
+	Projeto                        varchar(15) ,
+    Dot_seq_dot                    bigint NOT NULL,
+    Sld_inicial                    numeric(16,2),
+    Sld_atual                      numeric(16,2),
+    Ano                            numeric(4,0) NOT NULL,
+    Flex_campo_01                  varchar(2000),
+    Flex_campo_02                  varchar(2000),
+    Flex_campo_03                  varchar(2000),
+    Flex_campo_04                  varchar(2000),
+    Flex_campo_05                  varchar(2000),
+    Flex_campo_06                  varchar(2000),
+    Flex_campo_07                  varchar(2000),
+    Flex_campo_08                  varchar(2000),
+    Flex_campo_09                  varchar(2000),
+    Flex_campo_10                  varchar(2000),
+	ID_Projetos                    bigint,
+	ID_Dotacoes                    bigint,
+	CONSTRAINT SM_Dotacao_Projeto_pk PRIMARY KEY  CLUSTERED  (ID_DotacaoProjeto)  ON [PRIMARY])
+GO
+
+ALTER TABLE SM_Dotacao_Projeto ADD CONSTRAINT IX_SM_Dotacao_Projeto_u UNIQUE(Projeto, Ano, Dot_Seq_Dot)
+GO
+
+ALTER TABLE SM_Dotacao_Projeto WITH CHECK ADD CONSTRAINT SM_Dotacao_Projeto_fk FOREIGN KEY(ID_Projetos)
+REFERENCES SM_Projetos (ID_Projetos)
+GO
+
+ALTER TABLE SM_Dotacao_Projeto WITH CHECK ADD CONSTRAINT SM_Dotacao_Projeto_fk_1 FOREIGN KEY(Ano)
+REFERENCES SM_AnoCompra (Ano)
+GO
+
+ALTER TABLE SM_Dotacao_Projeto WITH CHECK ADD CONSTRAINT SM_Dotacao_Projeto_fk_2 FOREIGN KEY(ID_Dotacoes)
+REFERENCES SM_Dotacoes (ID_Dotacoes)
+GO
+
+alter table SM_Dotacao_Projeto add TimeStamp timestamp NOT NULL, ID_ClienteCloud bigint NULL, ID_Empresa bigint NULL 
+GO
+
+CREATE INDEX IX_SM_Dotacao_Projeto_TimeStamp ON SM_Dotacao_Projeto(TimeStamp)
+GO
+
+CREATE INDEX IX_SM_Dotacao_Projeto_ClienteCloud ON SM_Dotacao_Projeto(ID_ClienteCloud)
+GO
+
+CREATE INDEX IX_SM_Dotacao_Projeto_Empresa ON SM_Dotacao_Projeto (ID_Empresa)
+GO
+
+
+

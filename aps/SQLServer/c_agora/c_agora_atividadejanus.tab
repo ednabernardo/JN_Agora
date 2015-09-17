@@ -1,0 +1,7 @@
+-- Tarefa 79033 - Edna - 15/05/2013 - v4.29
+CREATE TABLE c_agora_atividadejanus(
+    id_atividade                   int identity (1,1) NOT NULL,
+    atividade                      varchar(40) ,
+    flg_inativo                    varchar(1) DEFAULT 'N' NOT NULL,
+	CONSTRAINT c_agora_atividadejanus_pk PRIMARY KEY  CLUSTERED  (id_atividade)  ON [PRIMARY])
+GO
